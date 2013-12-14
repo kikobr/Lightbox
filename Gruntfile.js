@@ -31,8 +31,8 @@ module.exports = function(grunt) {
   });
 
   // Load plugins here
-  grunt.loadNpmTasks('grunt-contrib');
   grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Define your tasks here
   grunt.registerTask('default', ['coffee', 'watch']);

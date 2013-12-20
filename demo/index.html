@@ -7,14 +7,23 @@
 		<script type="text/javascript" src="../js/lightbox.js"></script>
 		<link type="text/css" rel="stylesheet" href="style.css" />
 		<script type="text/javascript">
-			lightbox_options({
-				id_back : "fundo",
-				id_front: "frente",
-				time_fade: 150
-			});
+			
+			//$(function(){
+				lightbox_options({
+					id_back : "fundo",
+					id_front: "frente",
+					time_fade: 500,
+					click_holder: ".lightbox",
+					max_height: 1
+				});
+			//});
+					
 		</script>
 	</head>
 	<body>
-		<h1 data-lightbox href="http://www.google.com.br">Teste</h1>
+		<br/>
+		<h1 class="lightbox" data-lightbox href="http://2.bp.blogspota.com/-fK3T27K_qYs/UI3gA89r6EI/AAAAAAAAGs4/Paoir9nOsy8/s1600/red-fox2.jpg">Teste</h1>
+	
+		<p class="texto">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, cupiditate, voluptatum, sit, corporis dicta asperiores explicabo excepturi consequatur ut vitae doloremque eligendi voluptate optio! In, hic doloremque fuga ea deleniti.</p>
 	</body>
 </html>

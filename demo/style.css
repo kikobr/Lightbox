@@ -1,2 +1,8 @@
-#fundo { background-color: red; }
-#frente { border: 1px solid black; }
+#fundo { background-color: rgba(0,0,0,0.3); }
+#frente {  }
+#frente img {
+	border: 1px solid #DDD;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}

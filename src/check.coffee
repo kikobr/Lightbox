@@ -11,8 +11,7 @@ window.lightbox_options = (obj) ->
 ###
 check_jQuery = ->
   # Se o jQuery não tiver sido inicializado ainda
-  if !jQuery?    
-    alert 'nao'
+  if !jQuery?   
     if !jquery_solicitado       
       jquery_solicitado = true # Só permite a criação do script do jQuery uma vez, depois trava.
       document.write("<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-latest.min.js\"></script>") # Última versão

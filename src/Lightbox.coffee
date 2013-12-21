@@ -8,6 +8,7 @@ class Lightbox
     @time_fade = if @user_options?.time_fade then @user_options.time_fade else 250
     @max_width = if @user_options?.max_width then @user_options.max_width else 0.8
     @max_height = if @user_options?.max_height then @user_options.height else 0.85
+    @opened = false
     #---------------------------------------------------
     # Cria o html e o style do lightbox
     @create_html_css()
@@ -29,30 +30,33 @@ class Lightbox
     # Cria os elementos html do lightbox.
     @lightbox = $(document.createElement 'div')
     @lightbox_front = $(document.createElement 'div')
+    @lightbox_content = $ '<div></div>'
     @lightbox_back = $(document.createElement 'div')
     
     @lightbox.addClass 'k-lightbox'
-    @lightbox_front.addClass 'front'  
-    @lightbox_back.addClass 'back'
+    @lightbox_front.addClass 'k-front'
+    @lightbox_content.addClass 'k-content'
+    @lightbox_back.addClass 'k-back'
     
+    @lightbox_front.append @lightbox_content
     @lightbox.append @lightbox_front, @lightbox_back
     $('body').prepend @lightbox
     @lightbox.fadeOut(0) # esconde
     
-    # Cria a folha de estilo primária
+    # Cria a folha de estilo default
     style = $(document.createElement 'style')
     style.attr 'type', 'text/css'
     style_content = "
       body { margin:0; padding: 0; }
-      .k-lightbox .front { 
+      .k-lightbox .k-front { 
         background-color: transparent; 
         padding: 0px; 
         position: fixed;
         z-index: 991;
       }
-      .k-lightbox .front img { display:block; }
-      .k-lightbox .front img.invisible { visibility: hidden; }
-      .k-lightbox .back {
+      .k-lightbox .k-front img { display:block; }
+      .k-lightbox .k-front img.invisible { visibility: hidden; }
+      .k-lightbox .k-back {
         width: 100%;
         height: 100%;
         position: fixed;
@@ -93,19 +97,31 @@ class Lightbox
     $(@click_holder).click (e) => 
       e.preventDefault()
       @open(`$(this)`)
+    # Se for um override, só precisar atualizar o click_holder, não precisa redefinir
+    # tudo de novo, até pra evitar bugs.
+    if override? then return false 
+    # Clique no fundo  
     $(@lightbox_back).click =>
       @close()
+    # Tecla Esc
+    $('body').keydown (e) =>
+      if e.keyCode is 27 or e.charCode is 27 or e.which is 27
+        if @opened is on
+          @close()
       
   close: ->
+    @opened = false
+    @lightbox_content.html '' # Esvazia o contâiner
     @lightbox.fadeOut(@time_fade)
       
   open: (clicked) ->
+    @opened = true
     @lightbox.fadeIn(@time_fade)
 
     # Checa se é um link com href, para imagens
     href = if clicked?.attr('href')? then clicked.attr('href') else null
     img = new ImageHandler 
-      container: @lightbox_front, 
+      container: @lightbox_content, 
       href: href,
       time_fade: @time_fade,
       max_width: @max_width,

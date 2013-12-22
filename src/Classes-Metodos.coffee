@@ -23,9 +23,9 @@ reposition = (arg) ->
 
 #Classes
 # ---
-class ImageHandler
-	
+class ImageHandler	
 	constructor: (obj) ->
+		@load = if obj?.load? then obj.load else null
 		@container = if obj?.container? then obj.container else '.k-lightbox .k-front'
 		@max_height = if obj?.max_height? then obj.max_height
 		@max_width = if obj?.max_width? then obj.max_width
@@ -37,7 +37,7 @@ class ImageHandler
 			@img = $("<img />").attr 'src': obj.href, 'style':'/*height: 500px; width: 2500px;*/'
 			# Só continua se a imagem estiver tiver sido baixada por completo.
 			@img.load =>
-				@append()	
+				@load(@img)
 				@resize()
 
 
@@ -102,9 +102,4 @@ class ImageHandler
 			else
 				@img.fadeOut 0
 				@img.fadeIn @time_fade
-
-
-	append: ->
-		@container.html ''
-		@container.append @img
 

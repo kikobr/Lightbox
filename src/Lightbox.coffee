@@ -13,11 +13,14 @@ class Lightbox
     # Cria o html e o style do lightbox
     @create_html_css()
     #---------------------------------------------------    
-    # Seta configurações personalizadas do usuário
-    if @user_options? then @set(@user_options)    
+    # Seta configurações personalizadas do usuário e
+    if @user_options? then @set(@user_options)  
     #---------------------------------------------------
-    # Inicia as ações de clique
-    @set_click_holders()
+    # Inicia as ações de clique default
+    # Se o custom_set_click da função set() já estiver definido,
+    # o set_click_holders será chamado sozinho, então poderemos
+    # pular essa parte para não duplicar.
+    if @custom_set_click? isnt on then @set_click_holders()
     # --------------------------------------------------
     # Depois do jQuery ser inicializado, a função global window.lightbox_options irá
     # puxar a função @set. Isso permite que o usuário chame o lightbox_options tanto
@@ -31,14 +34,16 @@ class Lightbox
     @lightbox = $(document.createElement 'div')
     @lightbox_front = $(document.createElement 'div')
     @lightbox_content = $ '<div></div>'
+    @lightbox_close = $ close # Definido em icons.coffee
     @lightbox_back = $(document.createElement 'div')
-    
+
     @lightbox.addClass 'k-lightbox'
     @lightbox_front.addClass 'k-front'
+    @lightbox_close.attr 'class':'k-close', 'title':'Fechar' # Só aplica com attr.
     @lightbox_content.addClass 'k-content'
     @lightbox_back.addClass 'k-back'
     
-    @lightbox_front.append @lightbox_content
+    @lightbox_front.append @lightbox_content, @lightbox_close
     @lightbox.append @lightbox_front, @lightbox_back
     $('body').prepend @lightbox
     @lightbox.fadeOut(0) # esconde
@@ -56,6 +61,12 @@ class Lightbox
       }
       .k-lightbox .k-front img { display:block; }
       .k-lightbox .k-front img.invisible { visibility: hidden; }
+      .k-lightbox .k-close {
+        display:none;
+        position:absolute; 
+        top: 15px; right: 15px;
+        cursor:pointer;
+      }
       .k-lightbox .k-back {
         width: 100%;
         height: 100%;
@@ -75,14 +86,15 @@ class Lightbox
     id_back = if obj?.id_back? then obj.id_back else null  
     if id_front? then @lightbox_front.attr 'id', id_front # Pode definir uma id para customizar o CSS depois.
     if id_back? then @lightbox_back.attr 'id', id_back # Pode definir uma id para customizar o CSS depois.
-    # Overrides
+    
     # Propriedades simples
     if obj?.time_fade? then @time_fade = obj.time_fade
     if obj?.max_width? then @max_width = obj.max_width
     if obj?.max_height? then @max_height = obj.max_height
     # Click Holder
     default_holder = @click_holder # Guarda antigo click_holder para remover ouvinte
-    if obj?.click_holder? 
+    if obj?.click_holder?
+      @custom_set_click = true
       @click_holder = obj.click_holder # Seta o novo click_holder a ser ouvido
       @set_click_holders(default_holder)
 
@@ -97,10 +109,11 @@ class Lightbox
     $(@click_holder).click (e) => 
       e.preventDefault()
       @open(`$(this)`)
-    # Se for um override, só precisar atualizar o click_holder, não precisa redefinir
-    # tudo de novo, até pra evitar bugs.
-    if override? then return false 
-    # Clique no fundo  
+
+    # Botão de fechar
+    $(@lightbox_close).click =>
+      @close()
+    # Clique no fundo ou em close  
     $(@lightbox_back).click =>
       @close()
     # Tecla Esc
@@ -112,18 +125,26 @@ class Lightbox
   close: ->
     @opened = false
     @lightbox_content.html '' # Esvazia o contâiner
-    @lightbox.fadeOut(@time_fade)
-      
+    @lightbox_close.fadeOut 0
+    @lightbox.fadeOut @time_fade
+
   open: (clicked) ->
     @opened = true
-    @lightbox.fadeIn(@time_fade)
-
+    @lightbox.fadeIn @time_fade
     # Checa se é um link com href, para imagens
     href = if clicked?.attr('href')? then clicked.attr('href') else null
-    img = new ImageHandler 
-      container: @lightbox_content, 
+    img = new ImageHandler
+      load: @load,
+      container: @lightbox_content,
       href: href,
       time_fade: @time_fade,
       max_width: @max_width,
       max_height: @max_height
  
+  # Vai ser chamado de alguma outra classe, por isso precisa do contexto definido =>.
+  load: (obj) =>
+    @lightbox_content.append obj
+    setTimeout =>
+      @lightbox_close.fadeOut 0
+      @lightbox_close.fadeIn 500 
+    , @time_fade

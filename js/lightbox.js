@@ -1,5 +1,6 @@
 (function() {
-  var ImageHandler, Lightbox, check_jQuery, jquery_solicitado, options, reposition;
+  var ImageHandler, Lightbox, check_jQuery, close, jquery_solicitado, options, reposition,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   jquery_solicitado = false;
 
@@ -33,6 +34,10 @@
 
   check_jQuery();
 
+  close = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">\
+		<polygon id="x-mark-icon" points="438.393,374.595 319.757,255.977 438.378,137.348 374.595,73.607 255.995,192.225 137.375,73.622 73.607,137.352 192.246,255.983 73.622,374.625 137.352,438.393 256.002,319.734 374.652,438.378 "/>\
+		</svg>';
+
   reposition = function(arg) {
     var left, left_percent, o_h, o_w, obj, position, top, top_percent, w_h, w_w;
     position = (arg != null ? arg.position : void 0) != null ? arg.position : 'center';
@@ -59,6 +64,7 @@
   ImageHandler = (function() {
     function ImageHandler(obj) {
       var _this = this;
+      this.load = (obj != null ? obj.load : void 0) != null ? obj.load : null;
       this.container = (obj != null ? obj.container : void 0) != null ? obj.container : '.k-lightbox .k-front';
       this.max_height = (obj != null ? obj.max_height : void 0) != null ? obj.max_height : void 0;
       this.max_width = (obj != null ? obj.max_width : void 0) != null ? obj.max_width : void 0;
@@ -70,7 +76,7 @@
           'style': '/*height: 500px; width: 2500px;*/'
         });
         this.img.load(function() {
-          _this.append();
+          _this.load(_this.img);
           return _this.resize();
         });
       }
@@ -129,17 +135,13 @@
       }
     };
 
-    ImageHandler.prototype.append = function() {
-      this.container.html('');
-      return this.container.append(this.img);
-    };
-
     return ImageHandler;
 
   })();
 
   Lightbox = (function() {
     function Lightbox() {
+      this.load = __bind(this.load, this);
       var _ref, _ref1, _ref2, _ref3;
       this.user_options = options != null ? options : null;
       this.click_holder = ((_ref = this.user_options) != null ? _ref.click : void 0) ? this.user_options.click : '[data-lightbox]';
@@ -151,7 +153,9 @@
       if (this.user_options != null) {
         this.set(this.user_options);
       }
-      this.set_click_holders();
+      if ((this.custom_set_click != null) !== true) {
+        this.set_click_holders();
+      }
       this.set_2();
     }
 
@@ -160,18 +164,23 @@
       this.lightbox = $(document.createElement('div'));
       this.lightbox_front = $(document.createElement('div'));
       this.lightbox_content = $('<div></div>');
+      this.lightbox_close = $(close);
       this.lightbox_back = $(document.createElement('div'));
       this.lightbox.addClass('k-lightbox');
       this.lightbox_front.addClass('k-front');
+      this.lightbox_close.attr({
+        'class': 'k-close',
+        'title': 'Fechar'
+      });
       this.lightbox_content.addClass('k-content');
       this.lightbox_back.addClass('k-back');
-      this.lightbox_front.append(this.lightbox_content);
+      this.lightbox_front.append(this.lightbox_content, this.lightbox_close);
       this.lightbox.append(this.lightbox_front, this.lightbox_back);
       $('body').prepend(this.lightbox);
       this.lightbox.fadeOut(0);
       style = $(document.createElement('style'));
       style.attr('type', 'text/css');
-      style_content = "      body { margin:0; padding: 0; }      .k-lightbox .k-front {         background-color: transparent;         padding: 0px;         position: fixed;        z-index: 991;      }      .k-lightbox .k-front img { display:block; }      .k-lightbox .k-front img.invisible { visibility: hidden; }      .k-lightbox .k-back {        width: 100%;        height: 100%;        position: fixed;        z-index: 990;        background: grey; background: rgba(0,0,0,0.4);      }    ";
+      style_content = "      body { margin:0; padding: 0; }      .k-lightbox .k-front {         background-color: transparent;         padding: 0px;         position: fixed;        z-index: 991;      }      .k-lightbox .k-front img { display:block; }      .k-lightbox .k-front img.invisible { visibility: hidden; }      .k-lightbox .k-close {        display:none;        position:absolute;         top: 15px; right: 15px;        cursor:pointer;      }      .k-lightbox .k-back {        width: 100%;        height: 100%;        position: fixed;        z-index: 990;        background: grey; background: rgba(0,0,0,0.4);      }    ";
       style.html(style_content);
       return $('head').append(style);
     };
@@ -197,6 +206,7 @@
       }
       default_holder = this.click_holder;
       if ((obj != null ? obj.click_holder : void 0) != null) {
+        this.custom_set_click = true;
         this.click_holder = obj.click_holder;
         return this.set_click_holders(default_holder);
       }
@@ -218,9 +228,9 @@
         e.preventDefault();
         return _this.open($(this));
       });
-      if (override != null) {
-        return false;
-      }
+      $(this.lightbox_close).click(function() {
+        return _this.close();
+      });
       $(this.lightbox_back).click(function() {
         return _this.close();
       });
@@ -236,6 +246,7 @@
     Lightbox.prototype.close = function() {
       this.opened = false;
       this.lightbox_content.html('');
+      this.lightbox_close.fadeOut(0);
       return this.lightbox.fadeOut(this.time_fade);
     };
 
@@ -245,12 +256,22 @@
       this.lightbox.fadeIn(this.time_fade);
       href = (clicked != null ? clicked.attr('href') : void 0) != null ? clicked.attr('href') : null;
       return img = new ImageHandler({
+        load: this.load,
         container: this.lightbox_content,
         href: href,
         time_fade: this.time_fade,
         max_width: this.max_width,
         max_height: this.max_height
       });
+    };
+
+    Lightbox.prototype.load = function(obj) {
+      var _this = this;
+      this.lightbox_content.append(obj);
+      return setTimeout(function() {
+        _this.lightbox_close.fadeOut(0);
+        return _this.lightbox_close.fadeIn(500);
+      }, this.time_fade);
     };
 
     return Lightbox;

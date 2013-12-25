@@ -34,6 +34,7 @@ class Lightbox
     @lightbox = $(document.createElement 'div')
     @lightbox_front = $(document.createElement 'div')
     @lightbox_content = $ '<div></div>'
+    @lightbox_description = $ '<div></div>'
     @lightbox_close = $ close # Definido em icons.coffee
     @lightbox_back = $(document.createElement 'div')
 
@@ -41,9 +42,14 @@ class Lightbox
     @lightbox_front.addClass 'k-front'
     @lightbox_close.attr 'class':'k-close', 'title':'Fechar' # Só aplica com attr.
     @lightbox_content.addClass 'k-content'
+    @lightbox_description.addClass 'k-description'
     @lightbox_back.addClass 'k-back'
     
-    @lightbox_front.append @lightbox_content, @lightbox_close
+    @lightbox_front.append(
+      @lightbox_content,
+      @lightbox_description, 
+      @lightbox_close
+    )
     @lightbox.append @lightbox_front, @lightbox_back
     $('body').prepend @lightbox
     @lightbox.fadeOut(0) # esconde
@@ -61,6 +67,14 @@ class Lightbox
       }
       .k-lightbox .k-front img { display:block; }
       .k-lightbox .k-front img.invisible { visibility: hidden; }
+      .k-description {
+        color: white;
+        font-size: 13px;
+        margin-top: 10px;
+        -moz-box-sizing:border-box;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
       .k-lightbox .k-close {
         display:none;
         position:absolute; 
@@ -104,8 +118,7 @@ class Lightbox
     
   # Clique e inicialização
   set_click_holders: (override) ->
-    if override?
-      $(override).unbind('click') # Tira o ouvinte do holder padrão
+    if override? then $(override).unbind('click') # Tira o ouvinte do holder padrão
     $(@click_holder).click (e) => 
       e.preventDefault()
       @open(`$(this)`)
@@ -125,26 +138,55 @@ class Lightbox
   close: ->
     @opened = false
     @lightbox_content.html '' # Esvazia o contâiner
+    @lightbox_description.html '' # Esvazia descrição
     @lightbox_close.fadeOut 0
     @lightbox.fadeOut @time_fade
 
   open: (clicked) ->
     @opened = true
     @lightbox.fadeIn @time_fade
-    # Checa se é um link com href, para imagens
-    href = if clicked?.attr('href')? then clicked.attr('href') else null
-    img = new ImageHandler
-      load: @load,
-      container: @lightbox_content,
-      href: href,
-      time_fade: @time_fade,
-      max_width: @max_width,
-      max_height: @max_height
+
+    # ---
+    # Leitura do href
+    # ---    
+    href = if clicked?.attr 'href' then clicked.attr 'href' else null
+    if href
+      # Se for um link de imagem
+      # ---
+      is_img_link = /http:\/\/(.+)(\.jpg|\.jpeg|\.png|\.bmp|\.tif|\.tiff|\.svg|\.gif)$/ # começa com 'http://', seguido de qualquer tipo de caractere, quantas vezes forem, desde que termine com .jpg. 
+      if is_img_link.test(href)
+        # Se tiver descrições
+        description = ''
+        if clicked?.attr 'title'
+          description = clicked.attr 'title'
+        # Pode-se pegar as descrições pelo data-title também.
+        else if clicked?.attr 'data-title'
+          description = clicked.attr 'data-title'
+        
+        @description = new DescriptionHandler
+          description: description
+          container: @lightbox_description
+
+        @img = new ImageHandler
+          load: @load,
+          container: @lightbox_content,
+          href: href,
+          description: @description,
+          time_fade: @time_fade,
+          max_width: @max_width,
+          max_height: @max_height
+
  
   # Vai ser chamado de alguma outra classe, por isso precisa do contexto definido =>.
   load: (obj) =>
-    @lightbox_content.append obj
+    content = if obj?.content? then obj.content #imagem
+    @lightbox_content.append content
+
     setTimeout =>
+      if @description.is_on
+        @lightbox_description.fadeOut 0
+        @lightbox_description.css 'visibility', 'visible'
+        @lightbox_description.fadeIn 500
       @lightbox_close.fadeOut 0
-      @lightbox_close.fadeIn 500 
+      @lightbox_close.fadeIn 500
     , @time_fade

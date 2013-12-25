@@ -8,7 +8,7 @@ reposition = (arg) ->
 
 	if position isnt 'center'
 		if position is 'left'
-			left_percent = 0.1
+			left_percent = 0
 
 	# Alturas e larguras (o objeto imagem já está redimensionado)
 	w_h = window.innerHeight
@@ -25,6 +25,7 @@ reposition = (arg) ->
 # ---
 class ImageHandler	
 	constructor: (obj) ->
+		@description = if obj?.description? then obj.description else null
 		@load = if obj?.load? then obj.load else null
 		@container = if obj?.container? then obj.container else '.k-lightbox .k-front'
 		@max_height = if obj?.max_height? then obj.max_height
@@ -35,9 +36,13 @@ class ImageHandler
 		# Se for um lightbox convencional, com href.
 		if obj?.href?
 			@img = $("<img />").attr 'src': obj.href, 'style':'/*height: 500px; width: 2500px;*/'
+			@img.addClass '.k-img'
 			# Só continua se a imagem estiver tiver sido baixada por completo.
 			@img.load =>
-				@load(@img)
+				@load {
+					content: @img, 
+					description: @description
+				}
 				@resize()
 
 
@@ -87,7 +92,7 @@ class ImageHandler
 				t = t_backup + (@img.outerHeight()/2) # centro da imagem
 				l = l_backup + (@img.outerWidth()/2) # centro da imagem
 
-				# 
+				# Inicia
 				@img.css 'width':'0', 'height':'0'				
 				@img.animate { 
 					'width': w_backup+'px',
@@ -102,4 +107,16 @@ class ImageHandler
 			else
 				@img.fadeOut 0
 				@img.fadeIn @time_fade
+
+
+class DescriptionHandler
+	constructor: (obj) ->
+		@description = if obj?.description? then obj.description else ''
+		@is_on = if @description? then true else false
+		@container = if obj?.container? then obj.container
+		@output()
+	output: ->
+		@container.append @description
+		@container.css 'visibility', 'hidden'
+
 

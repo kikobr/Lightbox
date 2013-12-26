@@ -1,5 +1,5 @@
 (function() {
-  var DescriptionHandler, ImageHandler, Lightbox, check_jQuery, close, jquery_solicitado, options, reposition,
+  var DescriptionHandler, ImageHandler, Lightbox, check_jQuery, close, jquery_solicitado, loader_style, loading, options, reposition, style_content,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   jquery_solicitado = false;
@@ -38,6 +38,136 @@
 		<polygon id="x-mark-icon" points="438.393,374.595 319.757,255.977 438.378,137.348 374.595,73.607 255.995,192.225 137.375,73.622 73.607,137.352 192.246,255.983 73.622,374.625 137.352,438.393 256.002,319.734 374.652,438.378 "/>\
 		</svg>';
 
+  loading = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">\
+			<path id="loading-2-icon" d="M236,163.117V50h40v113.117c-6.449-1.382-13.139-2.116-20-2.116S242.449,161.735,236,163.117z M227.021,165.509L170.322,67.6l-34.641,20l56.678,97.873C202.248,176.542,214.027,169.667,227.021,165.509z M185.479,192.351 L87.6,135.681l-20,34.641l97.912,56.689C169.672,214.017,176.547,202.24,185.479,192.351z M161,256.001 c0-6.861,0.734-13.551,2.117-20H50v40h113.117C161.734,269.552,161,262.862,161,256.001z M256,351c-5.979,0-11.826-0.559-17.5-1.615 V462h35V349.385C267.828,350.441,261.98,351,256,351z M165.592,285.24L67.6,341.681l20,34.641l98.053-56.475 C176.693,309.98,169.787,298.22,165.592,285.24z M331.289,313.934l96.863,55.893l12.5-21.65l-96.84-55.879 C340.59,300.086,336.361,307.351,331.289,313.934z M290.008,344.725l56.002,97.177l25.98-15l-56.025-97.221 C308.23,335.983,299.484,341.09,290.008,344.725z M192.139,326.334l-56.459,98.068l34.641,20l56.42-98.001 C213.762,342.203,202.002,335.295,192.139,326.334z M350.477,246.001c0.344,3.287,0.523,6.622,0.523,10c0,3.377-0.18,6.713-0.523,10 H462v-20H350.477z M309.602,177.562l56.457-98.197l-12.124-7l-56.436,98.159C301.718,172.577,305.761,174.933,309.602,177.562z M342.252,216.143l97.266-56.282l-8.5-14.722l-97.26,56.279C337.009,206.04,339.855,210.966,342.252,216.143z"/>\
+			</svg>';
+
+  loading = '\
+<div class="loader">\
+  <div></div>\
+  <div></div>\
+  <div></div>\
+  <div></div>\
+  <div></div>\
+</div>\
+';
+
+  style_content = "      body { margin:0; padding: 0; }      .k-lightbox .k-front {        background-color: transparent;         padding: 0px;         position: fixed;        z-index: 991;      }      .k-lightbox .k-front img { display:block; }      .k-lightbox .k-front img.invisible { visibility: hidden; }      .k-description {        color: white;        font-weight:normal;        font-size: 14px;        margin-top: 10px;      }      .k-lightbox .k-close {        display:none;        position:absolute;         top: 15px; right: 15px;        cursor:pointer;      }      .k-lightbox .k-back {        width: 100%;        height: 100%;        position: fixed;        z-index: 990;        background: grey; background: rgba(0,0,0,0.4);      }";
+
+  loader_style = '\
+  .k-loading {\
+  width: 50px;\
+  height: 50px;\
+  /*border:  1px solid black;*/\
+  }\
+\
+  @keyframes "rotate" {\
+    to {\
+      -webkit-transform: rotateZ(410deg);\
+      -moz-transform: rotateZ(410deg);\
+      -o-transform: rotateZ(410deg);\
+      -ms-transform: rotateZ(410deg);\
+      transform: rotateZ(410deg); }\
+\
+    /* If it starts with 50deg, a complete turn ends with 410deg */ }\
+\
+  @-moz-keyframes rotate {\
+    to {\
+      -webkit-transform: rotateZ(410deg);\
+      -moz-transform: rotateZ(410deg);\
+      -o-transform: rotateZ(410deg);\
+      -ms-transform: rotateZ(410deg);\
+      transform: rotateZ(410deg); }\
+\
+    /* If it starts with 50deg, a complete turn ends with 410deg */ }\
+\
+  @-webkit-keyframes "rotate" {\
+    to {\
+      -webkit-transform: rotateZ(410deg);\
+      -moz-transform: rotateZ(410deg);\
+      -o-transform: rotateZ(410deg);\
+      -ms-transform: rotateZ(410deg);\
+      transform: rotateZ(410deg); }\
+\
+    /* If it starts with 50deg, a complete turn ends with 410deg */ }\
+\
+  @-ms-keyframes "rotate" {\
+    to {\
+      -webkit-transform: rotateZ(410deg);\
+      -moz-transform: rotateZ(410deg);\
+      -o-transform: rotateZ(410deg);\
+      -ms-transform: rotateZ(410deg);\
+      transform: rotateZ(410deg); }\
+\
+    /* If it starts with 50deg, a complete turn ends with 410deg */ }\
+\
+  @-o-keyframes "rotate" {\
+    to {\
+      -webkit-transform: rotateZ(410deg);\
+      -moz-transform: rotateZ(410deg);\
+      -o-transform: rotateZ(410deg);\
+      -ms-transform: rotateZ(410deg);\
+      transform: rotateZ(410deg); }\
+  }\
+\
+  .k-loading div {\
+    position: absolute;\
+    left: 7%;\
+    top: 9%;\
+    width: 8px;\
+    height: 8px;\
+    border-radius: 50%;\
+    background-color: white;\
+\
+    -webkit-animation: rotate 1.3s infinite cubic-bezier(0.7, 0.3, 0.3, 0.7);\
+    -moz-animation: rotate 1.3s infinite cubic-bezier(0.7, 0.3, 0.3, 0.7);\
+    -ms-animation: rotate 1.3s infinite cubic-bezier(0.7, 0.3, 0.3, 0.7);\
+    -o-animation: rotate 1.3s infinite cubic-bezier(0.7, 0.3, 0.3, 0.7);\
+    animation: rotate 1.3s infinite cubic-bezier(0.7, 0.3, 0.3, 0.7);\
+    \
+    /* Starts from the middle */\
+    -webkit-transform: rotateZ(50deg);\
+    -moz-transform: rotateZ(50deg);\
+    -o-transform: rotateZ(50deg);\
+    -ms-transform: rotateZ(50deg);\
+    transform: rotateZ(50deg);\
+\
+    -webkit-transform-origin: 275% 275%;\
+    -moz-transform-origin: 275% 275%;\
+    -o-transform-origin: 275% 275%;\
+    -ms-transform-origin: 275% 275%;\
+    transform-origin: 275% 275%;\
+  }\
+\
+  .k-loading div:nth-child(2) {\
+    -webkit-animation-delay: 0.12s;\
+    -moz-animation-delay: 0.12s;\
+    -ms-animation-delay: 0.12s;\
+    -o-animation-delay: 0.12s;\
+    animation-delay: 0.12s; }\
+\
+  .k-loading div:nth-child(3) {\
+    -webkit-animation-delay: 0.24s;\
+    -moz-animation-delay: 0.24s;\
+    -ms-animation-delay: 0.24s;\
+    -o-animation-delay: 0.24s;\
+    animation-delay: 0.24s; }\
+\
+  .k-loading div:nth-child(4) {\
+    -webkit-animation-delay: 0.36s;\
+    -moz-animation-delay: 0.36s;\
+    -ms-animation-delay: 0.36s;\
+    -o-animation-delay: 0.36s;\
+    animation-delay: 0.36s; }\
+\
+  .k-loading div:nth-child(5) {\
+    -webkit-animation-delay: 0.48s;\
+    -moz-animation-delay: 0.48s;\
+    -ms-animation-delay: 0.48s;\
+    -o-animation-delay: 0.48s;\
+    animation-delay: 0.48s; }\
+';
+
   reposition = function(arg) {
     var left, left_percent, o_h, o_w, obj, position, top, top_percent, w_h, w_w;
     position = (arg != null ? arg.position : void 0) != null ? arg.position : 'center';
@@ -73,8 +203,7 @@
       this.resize_anim = 'scale';
       if ((obj != null ? obj.href : void 0) != null) {
         this.img = $("<img />").attr({
-          'src': obj.href,
-          'style': '/*height: 500px; width: 2500px;*/'
+          'src': obj.href
         });
         this.img.addClass('.k-img');
         this.img.load(function() {
@@ -182,12 +311,13 @@
     }
 
     Lightbox.prototype.create_html_css = function() {
-      var style, style_content;
+      var style;
       this.lightbox = $(document.createElement('div'));
       this.lightbox_front = $(document.createElement('div'));
       this.lightbox_content = $('<div></div>');
       this.lightbox_description = $('<div></div>');
       this.lightbox_close = $(close);
+      this.lightbox_loading = $(loading);
       this.lightbox_back = $(document.createElement('div'));
       this.lightbox.addClass('k-lightbox');
       this.lightbox_front.addClass('k-front');
@@ -195,6 +325,11 @@
         'class': 'k-close',
         'title': 'Fechar'
       });
+      this.lightbox_loading.attr({
+        'class': 'k-loading',
+        'title': 'Carregando'
+      });
+      console.log(this.lightbox_loading);
       this.lightbox_content.addClass('k-content');
       this.lightbox_description.addClass('k-description');
       this.lightbox_back.addClass('k-back');
@@ -204,8 +339,8 @@
       this.lightbox.fadeOut(0);
       style = $(document.createElement('style'));
       style.attr('type', 'text/css');
-      style_content = "      body { margin:0; padding: 0; }      .k-lightbox .k-front {         background-color: transparent;         padding: 0px;         position: fixed;        z-index: 991;      }      .k-lightbox .k-front img { display:block; }      .k-lightbox .k-front img.invisible { visibility: hidden; }      .k-description {        color: white;        font-size: 13px;        margin-top: 10px;        -moz-box-sizing:border-box;        border-bottom-left-radius: 8px;        border-bottom-right-radius: 8px;      }      .k-lightbox .k-close {        display:none;        position:absolute;         top: 15px; right: 15px;        cursor:pointer;      }      .k-lightbox .k-back {        width: 100%;        height: 100%;        position: fixed;        z-index: 990;        background: grey; background: rgba(0,0,0,0.4);      }    ";
-      style.html(style_content);
+      style.append(style_content);
+      style.append(loader_style);
       return $('head').append(style);
     };
 
@@ -268,17 +403,24 @@
     };
 
     Lightbox.prototype.close = function() {
+      var _this = this;
       this.opened = false;
-      this.lightbox_content.html('');
-      this.lightbox_description.html('');
-      this.lightbox_close.fadeOut(0);
-      return this.lightbox.fadeOut(this.time_fade);
+      return this.lightbox.fadeOut(this.time_fade, function() {
+        _this.lightbox_content.html('');
+        _this.lightbox_description.html('');
+        return _this.lightbox_close.fadeOut(0);
+      });
     };
 
     Lightbox.prototype.open = function(clicked) {
       var description, href, is_img_link;
       this.opened = true;
       this.lightbox.fadeIn(this.time_fade);
+      this.lightbox_content.append(this.lightbox_loading);
+      reposition({
+        obj: this.lightbox_front
+      });
+      this.lightbox_content.addClass('loading');
       href = (clicked != null ? clicked.attr('href') : void 0) ? clicked.attr('href') : null;
       if (href) {
         is_img_link = /http:\/\/(.+)(\.jpg|\.jpeg|\.png|\.bmp|\.tif|\.tiff|\.svg|\.gif)$/;
@@ -310,6 +452,10 @@
       var content,
         _this = this;
       content = (obj != null ? obj.content : void 0) != null ? obj.content : void 0;
+      if (this.lightbox_content.find('.k-loading')) {
+        this.lightbox_loading.remove();
+        this.lightbox_content.removeClass('loading');
+      }
       this.lightbox_content.append(content);
       return setTimeout(function() {
         if (_this.description.is_on) {
@@ -317,7 +463,6 @@
           _this.lightbox_description.css('visibility', 'visible');
           _this.lightbox_description.fadeIn(500);
         }
-        _this.lightbox_close.fadeOut(0);
         return _this.lightbox_close.fadeIn(500);
       }, this.time_fade);
     };

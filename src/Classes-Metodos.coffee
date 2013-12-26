@@ -35,7 +35,7 @@ class ImageHandler
 
 		# Se for um lightbox convencional, com href.
 		if obj?.href?
-			@img = $("<img />").attr 'src': obj.href, 'style':'/*height: 500px; width: 2500px;*/'
+			@img = $("<img />").attr 'src': obj.href
 			@img.addClass '.k-img'
 			# Só continua se a imagem estiver tiver sido baixada por completo.
 			@img.load =>
@@ -54,7 +54,8 @@ class ImageHandler
 		i_h = @img.outerHeight()
 		i_w = @img.outerWidth() 
 		@img.addClass 'invisible' # Some no início para fazer a animação depois.
-
+		
+		
 		# Calcula o tamanho da imagem.
 		# ---
 		# Se extrapolar limite de altura redimensiona imagem junto com a largura

@@ -1,16 +1,16 @@
-#fundo { background-color: rgba(0,0,0,0.6); }
+#fundo { background-color: rgba(0,0,0,0.7); }
 #frente { }
-.k-content {
-	overflow:hidden;
+.k-content > * {
 	border: 1px solid rgba(255,255,255,0.5);
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 }
+.k-content.loading > * { border-color:transparent; }
 svg {
 	fill: grey; fill: rgba(0,0,0,0);
 	stroke: rgba(255,255,255,0.5);
 	stroke-width: 12px;
 	transition: fill 250ms ease-in-out;
 }
-svg:hover { fill: white; };
+svg:hover { fill: white; }

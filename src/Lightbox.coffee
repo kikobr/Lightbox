@@ -36,11 +36,14 @@ class Lightbox
     @lightbox_content = $ '<div></div>'
     @lightbox_description = $ '<div></div>'
     @lightbox_close = $ close # Definido em icons.coffee
+    @lightbox_loading = $ loading
     @lightbox_back = $(document.createElement 'div')
 
     @lightbox.addClass 'k-lightbox'
     @lightbox_front.addClass 'k-front'
     @lightbox_close.attr 'class':'k-close', 'title':'Fechar' # Só aplica com attr.
+    @lightbox_loading.attr 'class':'k-loading', 'title':'Carregando'
+    console.log @lightbox_loading
     @lightbox_content.addClass 'k-content'
     @lightbox_description.addClass 'k-description'
     @lightbox_back.addClass 'k-back'
@@ -57,39 +60,8 @@ class Lightbox
     # Cria a folha de estilo default
     style = $(document.createElement 'style')
     style.attr 'type', 'text/css'
-    style_content = "
-      body { margin:0; padding: 0; }
-      .k-lightbox .k-front { 
-        background-color: transparent; 
-        padding: 0px; 
-        position: fixed;
-        z-index: 991;
-      }
-      .k-lightbox .k-front img { display:block; }
-      .k-lightbox .k-front img.invisible { visibility: hidden; }
-      .k-description {
-        color: white;
-        font-size: 13px;
-        margin-top: 10px;
-        -moz-box-sizing:border-box;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
-      }
-      .k-lightbox .k-close {
-        display:none;
-        position:absolute; 
-        top: 15px; right: 15px;
-        cursor:pointer;
-      }
-      .k-lightbox .k-back {
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        z-index: 990;
-        background: grey; background: rgba(0,0,0,0.4);
-      }
-    "
-    style.html style_content
+    style.append style_content # styles.coffee
+    style.append loader_style # styles.coffee
     $('head').append style
   
   
@@ -137,14 +109,20 @@ class Lightbox
       
   close: ->
     @opened = false
-    @lightbox_content.html '' # Esvazia o contâiner
-    @lightbox_description.html '' # Esvazia descrição
-    @lightbox_close.fadeOut 0
-    @lightbox.fadeOut @time_fade
+    # Primeiro dá o fadeOut, depois limpa os containeres.
+    @lightbox.fadeOut @time_fade, =>
+      @lightbox_content.html '' # Esvazia o contâiner
+      @lightbox_description.html '' # Esvazia descrição
+      @lightbox_close.fadeOut 0
 
   open: (clicked) ->
     @opened = true
     @lightbox.fadeIn @time_fade
+
+    # Adiciona o loading e centraliza na tela.
+    @lightbox_content.append @lightbox_loading
+    reposition obj:@lightbox_front
+    @lightbox_content.addClass 'loading'
 
     # ---
     # Leitura do href
@@ -180,13 +158,16 @@ class Lightbox
   # Vai ser chamado de alguma outra classe, por isso precisa do contexto definido =>.
   load: (obj) =>
     content = if obj?.content? then obj.content #imagem
+    if @lightbox_content.find '.k-loading'
+      @lightbox_loading.remove()
+      @lightbox_content.removeClass 'loading'
     @lightbox_content.append content
 
+    # Botões e descrição
     setTimeout =>
       if @description.is_on
         @lightbox_description.fadeOut 0
         @lightbox_description.css 'visibility', 'visible'
         @lightbox_description.fadeIn 500
-      @lightbox_close.fadeOut 0
       @lightbox_close.fadeIn 500
     , @time_fade

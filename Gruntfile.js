@@ -14,6 +14,7 @@ module.exports = function(grunt) {
 	    	'js/lightbox.js': [
 	    		'src/check.coffee',
 	    		'src/icons.coffee',
+	    		'src/styles.coffee',
 	    		'src/Classes-Metodos.coffee',
 	    		'src/Lightbox.coffee'
 	    	]

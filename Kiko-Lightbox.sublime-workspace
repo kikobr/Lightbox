@@ -4,12 +4,24 @@
 		"selected_items":
 		[
 			[
-				"light",
-				"lightbox_description"
+				"ligh",
+				"lightbox_content"
 			],
 			[
-				"ligh",
-				"lightbox_description"
+				"light",
+				"lightbox_content"
+			],
+			[
+				"lg",
+				"lightbox_loading"
+			],
+			[
+				"lig",
+				"lightbox_content"
+			],
+			[
+				"click",
+				"clicked"
 			],
 			[
 				"lightbo",
@@ -31,7 +43,7 @@
 			"file": "src/Lightbox.coffee",
 			"settings":
 			{
-				"buffer_size": 6430,
+				"buffer_size": 6517,
 				"line_ending": "Unix"
 			}
 		},
@@ -39,7 +51,7 @@
 			"file": "demo/style.css",
 			"settings":
 			{
-				"buffer_size": 335,
+				"buffer_size": 406,
 				"line_ending": "Unix"
 			}
 		},
@@ -47,7 +59,7 @@
 			"file": "src/icons.coffee",
 			"settings":
 			{
-				"buffer_size": 466,
+				"buffer_size": 2068,
 				"line_ending": "Unix"
 			}
 		},
@@ -63,7 +75,7 @@
 			"file": "Gruntfile.js",
 			"settings":
 			{
-				"buffer_size": 747,
+				"buffer_size": 775,
 				"line_ending": "Unix"
 			}
 		},
@@ -71,7 +83,7 @@
 			"file": "src/Classes-Metodos.coffee",
 			"settings":
 			{
-				"buffer_size": 3706,
+				"buffer_size": 3666,
 				"line_ending": "Windows"
 			}
 		},
@@ -79,7 +91,23 @@
 			"file": "js/lightbox.js",
 			"settings":
 			{
-				"buffer_size": 12581,
+				"buffer_size": 14869,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/styles.coffee",
+			"settings":
+			{
+				"buffer_size": 4023,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/loader.css",
+			"settings":
+			{
+				"buffer_size": 3217,
 				"line_ending": "Unix"
 			}
 		}
@@ -87,9 +115,17 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 159.0,
+		"height": 327.0,
 		"selected_items":
 		[
+			[
+				"sass",
+				"Set Syntax: Sass"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
 			[
 				"insta",
 				"Package Control: Install Package"
@@ -109,10 +145,6 @@
 			[
 				"set",
 				"Set Syntax: HTML"
-			],
-			[
-				"inst",
-				"Package Control: Install Package"
 			],
 			[
 				"ins",
@@ -140,6 +172,10 @@
 	},
 	"file_history":
 	[
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/loader.css",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/loader.scss",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/loader.sass",
+		"/tmp/iconmonstr-loading-2-icon.svg",
 		"/home/kiko/Desktop/untitled.html",
 		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/icons/close.coffee",
 		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/icons/close.svg",
@@ -152,9 +188,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -162,14 +199,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".loader",
 			"http://(.+)(\\.jpg|\\.jpeg|\\.png|\\.bmp|\\.tif|\\.tiff|\\.svg|\\.gif)$"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
+			"aaa\n\n\n\n",
+			"\n\n\n\n",
+			".k-loading\n\n\n\n",
 			"aa\n\n\n\n",
 			"aa\n\n\n\naa"
 		],
@@ -177,12 +218,12 @@
 		"show_context": true,
 		"use_buffer2": true,
 		"whole_word": false,
-		"wrap": true
+		"wrap": false
 	},
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -190,15 +231,15 @@
 					"file": "src/Lightbox.coffee",
 					"settings":
 					{
-						"buffer_size": 6430,
+						"buffer_size": 6517,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5500,
-								5500
+								2791,
+								2791
 							]
 						],
 						"settings":
@@ -208,7 +249,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2269.0,
+						"translation.y": 578.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -218,15 +259,15 @@
 					"file": "demo/style.css",
 					"settings":
 					{
-						"buffer_size": 335,
+						"buffer_size": 406,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								331,
-								331
+								406,
+								406
 							]
 						],
 						"settings":
@@ -234,7 +275,7 @@
 							"syntax": "Packages/CSS/CSS.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 102.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -244,15 +285,15 @@
 					"file": "src/icons.coffee",
 					"settings":
 					{
-						"buffer_size": 466,
+						"buffer_size": 2068,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								144,
-								144
+								1973,
+								1973
 							]
 						],
 						"settings":
@@ -277,8 +318,8 @@
 						"selection":
 						[
 							[
-								544,
-								544
+								762,
+								762
 							]
 						],
 						"settings":
@@ -287,7 +328,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 204.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -297,15 +338,15 @@
 					"file": "Gruntfile.js",
 					"settings":
 					{
-						"buffer_size": 747,
+						"buffer_size": 775,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								307,
-								307
+								337,
+								337
 							]
 						],
 						"settings":
@@ -321,7 +362,7 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -329,15 +370,15 @@
 					"file": "src/Classes-Metodos.coffee",
 					"settings":
 					{
-						"buffer_size": 3706,
+						"buffer_size": 3666,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3702,
-								3702
+								2281,
+								2281
 							]
 						],
 						"settings":
@@ -346,7 +387,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1700.0,
+						"translation.y": 1020.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -356,7 +397,7 @@
 					"file": "js/lightbox.js",
 					"settings":
 					{
-						"buffer_size": 12581,
+						"buffer_size": 14869,
 						"regions":
 						{
 						},
@@ -375,6 +416,62 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 877.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/styles.coffee",
+					"settings":
+					{
+						"buffer_size": 4023,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2310,
+								2310
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1258.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/loader.css",
+					"settings":
+					{
+						"buffer_size": 3217,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3217,
+								3217
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -1,5 +1,5 @@
 (function() {
-  var DescriptionHandler, ImageHandler, Lightbox, check_jQuery, close, jquery_solicitado, loader_style, loading, options, reposition, style_content,
+  var DescriptionHandler, GroupHandler, ImageHandler, Lightbox, check_jQuery, close, jquery_solicitado, loader_style, loading, next_arrow, options, reposition, style_content,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   jquery_solicitado = false;
@@ -52,7 +52,13 @@
 </div>\
 ';
 
-  style_content = "      body { margin:0; padding: 0; }      .k-lightbox .k-front {        background-color: transparent;         padding: 0px;         position: fixed;        z-index: 991;      }      .k-lightbox .k-front img { display:block; }      .k-lightbox .k-front img.invisible { visibility: hidden; }      .k-description {        color: white;        font-weight:normal;        font-size: 14px;        margin-top: 10px;      }      .k-lightbox .k-close {        display:none;        position:absolute;         top: 15px; right: 15px;        cursor:pointer;      }      .k-lightbox .k-back {        width: 100%;        height: 100%;        position: fixed;        z-index: 990;        background: grey; background: rgba(0,0,0,0.4);      }";
+  next_arrow = '\
+	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="45px" height="45px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">\
+	<polygon id="arrow-25-icon" points="142.332,104.886 197.48,50 402.5,256 197.48,462 142.332,407.113 292.727,256 "/>\
+	</svg>\
+';
+
+  style_content = "      body { margin:0; padding: 0; }      .k-lightbox .k-front {        background-color: transparent;         padding: 0px;         position: fixed;        z-index: 991;      }      .k-lightbox .k-front img { display:block; }      .k-lightbox .k-front img.invisible { visibility: hidden; }      .k-description {        color: white;        font-weight:normal;        font-size: 14px;        line-height: 1.1em;        margin-top: 10px;      }      .k-description span {        display: block;        font-size: 0.85em;        opacity: 0.5;      }      .k-prev, .k-next {        position: absolute;        left: 15px; top: 50%;        transform: translateY(-50%);        border:none;        cursor:pointer;      }      .k-prev {        transform: rotate(180deg);        transform-origin: 50% 25%;       }      .k-next { left: auto; right: 15px; }      .k-lightbox .k-close {        display:none;        position:absolute;         top: 15px; right: 15px;        cursor:pointer;      }      .k-lightbox .k-back {        width: 100%;        height: 100%;        position: fixed;        z-index: 990;        background: grey; background: rgba(0,0,0,0.4);      }";
 
   loader_style = '\
   .k-loading {\
@@ -278,15 +284,89 @@
       this.description = (obj != null ? obj.description : void 0) != null ? obj.description : '';
       this.is_on = this.description != null ? true : false;
       this.container = (obj != null ? obj.container : void 0) != null ? obj.container : void 0;
+      this.group_output = (obj != null ? obj.group_output : void 0) != null ? obj.group_output : null;
       this.output();
     }
 
     DescriptionHandler.prototype.output = function() {
       this.container.append(this.description);
+      if (this.group_output != null) {
+        this.container.append('<span>' + this.group_output + '</span>');
+      }
       return this.container.css('visibility', 'hidden');
     };
 
     return DescriptionHandler;
+
+  })();
+
+  GroupHandler = (function() {
+    function GroupHandler(clicked) {
+      this.group_handler = $('[data-lightbox]');
+      this.enable = false;
+      this.clicked = clicked != null ? clicked : null;
+      this.groups = {};
+      this.get_groups();
+      this.group_item_info();
+    }
+
+    GroupHandler.prototype.get_groups = function() {
+      var groups;
+      groups = this.groups;
+      this.group_handler.each(function() {
+        var group;
+        group = $(this).attr('data-lightbox');
+        if (group !== '') {
+          if (groups[group] === void 0) {
+            groups[group] = [];
+          }
+          return groups[group].push($(this));
+        }
+      });
+      if (groups.hasOwnProperty(this.clicked.attr('data-lightbox'))) {
+        return this.enable = true;
+      }
+    };
+
+    GroupHandler.prototype.group_item_info = function() {
+      var breakLoop, elem, group, i, index, total, _i, _len, _ref, _results;
+      if (this.enable) {
+        _results = [];
+        for (group in this.groups) {
+          _ref = this.groups[group];
+          for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+            elem = _ref[i];
+            if (elem.is(this.clicked)) {
+              index = i + 1;
+              total = this.groups[group].length;
+              this.output = 'Imagem ' + index + ' de ' + total;
+              if (this.groups[group][i - 1] != null) {
+                this.prev = this.groups[group][i - 1];
+              } else {
+                this.prev = null;
+              }
+              if (this.groups[group][i + 1] != null) {
+                this.next = this.groups[group][i + 1];
+              } else {
+                this.next = null;
+              }
+              breakLoop = true;
+              break;
+            }
+          }
+          if (breakLoop) {
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      } else {
+        return null;
+      }
+    };
+
+    return GroupHandler;
 
   })();
 
@@ -317,22 +397,32 @@
       this.lightbox_content = $('<div></div>');
       this.lightbox_description = $('<div></div>');
       this.lightbox_close = $(close);
+      this.lightbox_prev = $(next_arrow);
+      this.lightbox_next = $(next_arrow);
       this.lightbox_loading = $(loading);
       this.lightbox_back = $(document.createElement('div'));
       this.lightbox.addClass('k-lightbox');
       this.lightbox_front.addClass('k-front');
       this.lightbox_close.attr({
         'class': 'k-close',
-        'title': 'Fechar'
+        'title': 'Fechar [Pressione Esc]'
+      });
+      this.lightbox_prev.attr({
+        'class': 'k-prev',
+        'title': 'Imagem anterior [Pressione seta esquerda]'
+      });
+      this.lightbox_next.attr({
+        'class': 'k-next',
+        'title': 'Próxima Imagem [Pressione seta direita]'
       });
       this.lightbox_loading.attr({
         'class': 'k-loading',
         'title': 'Carregando'
       });
-      console.log(this.lightbox_loading);
       this.lightbox_content.addClass('k-content');
       this.lightbox_description.addClass('k-description');
       this.lightbox_back.addClass('k-back');
+      this.lightbox_content.append(this.lightbox_prev, this.lightbox_next);
       this.lightbox_front.append(this.lightbox_content, this.lightbox_description, this.lightbox_close);
       this.lightbox.append(this.lightbox_front, this.lightbox_back);
       $('body').prepend(this.lightbox);
@@ -396,7 +486,17 @@
       return $('body').keydown(function(e) {
         if (e.keyCode === 27 || e.charCode === 27 || e.which === 27) {
           if (_this.opened === true) {
-            return _this.close();
+            _this.close();
+          }
+        }
+        if (e.keyCode === 37 || e.charCode === 37 || e.which === 37) {
+          if (_this.opened && _this.groups.enable && _this.groups.prev) {
+            _this.open(_this.groups.prev);
+          }
+        }
+        if (e.keyCode === 39 || e.charCode === 39 || e.which === 39) {
+          if (_this.opened && _this.groups.enable && (_this.groups.next != null)) {
+            return _this.open(_this.groups.next);
           }
         }
       });
@@ -406,21 +506,45 @@
       var _this = this;
       this.opened = false;
       return this.lightbox.fadeOut(this.time_fade, function() {
-        _this.lightbox_content.html('');
+        _this.lightbox_content.find('img').remove();
         _this.lightbox_description.html('');
-        return _this.lightbox_close.fadeOut(0);
+        _this.lightbox_close.fadeOut(0);
+        _this.lightbox_prev.fadeOut(0);
+        return _this.lightbox_next.fadeOut(0);
       });
     };
 
     Lightbox.prototype.open = function(clicked) {
-      var description, href, is_img_link;
-      this.opened = true;
+      var description, href, is_img_link,
+        _this = this;
+      if (this.opened = true) {
+        this.lightbox_content.find('img').remove();
+        this.lightbox_description.html('');
+      } else {
+        this.opened = true;
+      }
+      this.lightbox_prev.fadeOut(0);
+      this.lightbox_next.fadeOut(0);
+      this.lightbox_close.fadeOut(0);
       this.lightbox.fadeIn(this.time_fade);
       this.lightbox_content.append(this.lightbox_loading);
       reposition({
         obj: this.lightbox_front
       });
       this.lightbox_content.addClass('loading');
+      this.groups = new GroupHandler(clicked);
+      this.lightbox_prev.unbind('click');
+      this.lightbox_next.unbind('click');
+      if (this.groups.prev != null) {
+        this.lightbox_prev.click(function() {
+          return _this.open(_this.groups.prev);
+        });
+      }
+      if (this.groups.next != null) {
+        this.lightbox_next.click(function() {
+          return _this.open(_this.groups.next);
+        });
+      }
       href = (clicked != null ? clicked.attr('href') : void 0) ? clicked.attr('href') : null;
       if (href) {
         is_img_link = /http:\/\/(.+)(\.jpg|\.jpeg|\.png|\.bmp|\.tif|\.tiff|\.svg|\.gif)$/;
@@ -433,7 +557,8 @@
           }
           this.description = new DescriptionHandler({
             description: description,
-            container: this.lightbox_description
+            container: this.lightbox_description,
+            group_output: this.groups.output
           });
           return this.img = new ImageHandler({
             load: this.load,
@@ -462,6 +587,14 @@
           _this.lightbox_description.fadeOut(0);
           _this.lightbox_description.css('visibility', 'visible');
           _this.lightbox_description.fadeIn(500);
+        }
+        if (_this.groups.enable) {
+          if (_this.groups.prev != null) {
+            _this.lightbox_prev.fadeIn(500);
+          }
+          if (_this.groups.next != null) {
+            _this.lightbox_next.fadeIn(500);
+          }
         }
         return _this.lightbox_close.fadeIn(500);
       }, this.time_fade);

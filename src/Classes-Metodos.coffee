@@ -115,9 +115,67 @@ class DescriptionHandler
 		@description = if obj?.description? then obj.description else ''
 		@is_on = if @description? then true else false
 		@container = if obj?.container? then obj.container
+		@group_output = if obj?.group_output? then obj.group_output else null
 		@output()
 	output: ->
 		@container.append @description
+		if @group_output? then @container.append '<span>'+@group_output+'</span>'
 		@container.css 'visibility', 'hidden'
 
+
+class GroupHandler
+	constructor: (clicked) ->
+		@group_handler = $ '[data-lightbox]'
+		@enable = false # Default. Isso será atualizado a cada clique.
+		@clicked = if clicked? then clicked else null
+		@groups = {}
+		@get_groups() # Atualiza todos os grupos da página
+		
+		# Define a posição do item atual e os links para anterior e próximo
+		@group_item_info() 
+
+	get_groups: ->
+		# Loop entre todos os lightboxes procurando grupos
+		groups = @groups
+		@group_handler.each ->
+			group = $(@).attr 'data-lightbox'
+			# Se tiver um grupo definido no Html:
+			if group isnt ''
+				# Se esse grupo ainda não existir na nossa array, será criado.
+				if groups[group] == undefined
+					groups[group] = []
+				# Adiciona o elemento ao grupo pertencente.
+				groups[group].push $ @
+		# Checa se o elemento clicado faz parte dos grupos registrados
+		if groups.hasOwnProperty @clicked.attr 'data-lightbox'
+			@enable = true
+
+	group_item_info: ->
+		if @enable
+			# Loop pelos dos principais grupos
+			for group of @groups
+				# Procura no grupo do loop se ele contém o elemento
+				for elem, i in @groups[group]
+					# Se o elemento for reconhecido, retorna o seu indice
+					if elem.is @clicked
+						# Mensagem de output
+						index = i+1 # Começa com 0
+						total = @groups[group].length
+						@output = 'Imagem '+index+' de '+total
+						
+						# Item anterior
+						if @groups[group][i-1]?
+							@prev = @groups[group][i-1]
+						else @prev = null
+
+						# Próximo item
+						if @groups[group][i+1]?
+							@next = @groups[group][i+1]
+						else @next = null
+
+						# Termina todo o loop.
+						breakLoop = true
+						break
+				if breakLoop then break
+		else return null
 

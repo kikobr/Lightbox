@@ -25,8 +25,7 @@ class Lightbox
     # Depois do jQuery ser inicializado, a função global window.lightbox_options irá
     # puxar a função @set. Isso permite que o usuário chame o lightbox_options tanto
     # dentro ou fora de $(function(){  })
-    @set_2()
-    
+    @set_2()    
   
   # Cria html do lightbox e seu css
   create_html_css: ->
@@ -36,24 +35,34 @@ class Lightbox
     @lightbox_content = $ '<div></div>'
     @lightbox_description = $ '<div></div>'
     @lightbox_close = $ close # Definido em icons.coffee
+    @lightbox_prev = $ next_arrow
+    @lightbox_next = $ next_arrow
     @lightbox_loading = $ loading
     @lightbox_back = $(document.createElement 'div')
 
     @lightbox.addClass 'k-lightbox'
     @lightbox_front.addClass 'k-front'
-    @lightbox_close.attr 'class':'k-close', 'title':'Fechar' # Só aplica com attr.
+    @lightbox_close.attr 'class':'k-close', 'title':'Fechar [Pressione Esc]' # Só aplica com attr.
+    @lightbox_prev.attr 'class':'k-prev', 'title':'Imagem anterior [Pressione seta esquerda]'
+    @lightbox_next.attr 'class':'k-next', 'title':'Próxima Imagem [Pressione seta direita]'
     @lightbox_loading.attr 'class':'k-loading', 'title':'Carregando'
-    console.log @lightbox_loading
     @lightbox_content.addClass 'k-content'
     @lightbox_description.addClass 'k-description'
     @lightbox_back.addClass 'k-back'
     
+    @lightbox_content.append(
+      @lightbox_prev,
+      @lightbox_next
+    )
     @lightbox_front.append(
       @lightbox_content,
       @lightbox_description, 
       @lightbox_close
     )
-    @lightbox.append @lightbox_front, @lightbox_back
+    @lightbox.append(
+      @lightbox_front, 
+      @lightbox_back
+    )
     $('body').prepend @lightbox
     @lightbox.fadeOut(0) # esconde
     
@@ -101,28 +110,65 @@ class Lightbox
     # Clique no fundo ou em close  
     $(@lightbox_back).click =>
       @close()
-    # Tecla Esc
+    # Teclas
     $('body').keydown (e) =>
+      # Esc
       if e.keyCode is 27 or e.charCode is 27 or e.which is 27
         if @opened is on
           @close()
-      
+      # Seta Esquerda
+      if e.keyCode is 37 or e.charCode is 37 or e.which is 37
+        if @opened and @groups.enable and @groups.prev
+          @open @groups.prev
+      # Seta Direita
+      if e.keyCode is 39 or e.charCode is 39 or e.which is 39
+        if @opened and @groups.enable and @groups.next?
+          @open @groups.next
+
   close: ->
     @opened = false
     # Primeiro dá o fadeOut, depois limpa os containeres.
     @lightbox.fadeOut @time_fade, =>
-      @lightbox_content.html '' # Esvazia o contâiner
+      @lightbox_content.find('img').remove() # Esvazia o contâiner
       @lightbox_description.html '' # Esvazia descrição
       @lightbox_close.fadeOut 0
+      @lightbox_prev.fadeOut 0
+      @lightbox_next.fadeOut 0
 
   open: (clicked) ->
-    @opened = true
+    # Checa se tem uma imagem atualmente carregada
+    # (Navegação pelo grupo)
+    if @opened = true
+      @lightbox_content.find('img').remove()
+      @lightbox_description.html ''
+    else
+      @opened = true
+
+    # Certeza que não vão aparecer pra bugar
+    @lightbox_prev.fadeOut 0
+    @lightbox_next.fadeOut 0
+    @lightbox_close.fadeOut 0
+
+    # Abre o lightbox
     @lightbox.fadeIn @time_fade
 
     # Adiciona o loading e centraliza na tela.
     @lightbox_content.append @lightbox_loading
     reposition obj:@lightbox_front
     @lightbox_content.addClass 'loading'
+
+    # --------------------------------------------------
+    # Nova instância do GroupsHandler
+    @groups = new GroupHandler clicked
+    # Handlers de próximo e anterior
+    @lightbox_prev.unbind 'click'
+    @lightbox_next.unbind 'click'
+    if @groups.prev?
+      @lightbox_prev.click =>
+        @open @groups.prev
+    if @groups.next?
+      @lightbox_next.click =>
+        @open @groups.next
 
     # ---
     # Leitura do href
@@ -142,8 +188,9 @@ class Lightbox
           description = clicked.attr 'data-title'
         
         @description = new DescriptionHandler
-          description: description
-          container: @lightbox_description
+          description: description,
+          container: @lightbox_description,
+          group_output: @groups.output
 
         @img = new ImageHandler
           load: @load,
@@ -163,11 +210,16 @@ class Lightbox
       @lightbox_content.removeClass 'loading'
     @lightbox_content.append content
 
-    # Botões e descrição
+    # Botões e descrição    
     setTimeout =>
       if @description.is_on
         @lightbox_description.fadeOut 0
         @lightbox_description.css 'visibility', 'visible'
         @lightbox_description.fadeIn 500
+      if @groups.enable
+        if @groups.prev?
+          @lightbox_prev.fadeIn 500
+        if @groups.next?
+          @lightbox_next.fadeIn 500
       @lightbox_close.fadeIn 500
     , @time_fade

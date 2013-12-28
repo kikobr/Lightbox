@@ -4,12 +4,36 @@
 		"selected_items":
 		[
 			[
+				"group",
+				"group_output"
+			],
+			[
+				"fa",
+				"fadeOut"
+			],
+			[
 				"ligh",
-				"lightbox_content"
+				"lightbox_next"
 			],
 			[
 				"light",
 				"lightbox_content"
+			],
+			[
+				"lightb",
+				"lightbox_description"
+			],
+			[
+				"remove",
+				"removeClass"
+			],
+			[
+				"lightbox",
+				"lightbox_prev"
+			],
+			[
+				"grou",
+				"group_item_info"
 			],
 			[
 				"lg",
@@ -30,94 +54,22 @@
 			[
 				"li",
 				"lightbox_close"
-			],
-			[
-				"lightb",
-				"lightbox_content"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "src/Lightbox.coffee",
-			"settings":
-			{
-				"buffer_size": 6517,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "demo/style.css",
-			"settings":
-			{
-				"buffer_size": 406,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/icons.coffee",
-			"settings":
-			{
-				"buffer_size": 2068,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "demo/index.html",
-			"settings":
-			{
-				"buffer_size": 1247,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Gruntfile.js",
-			"settings":
-			{
-				"buffer_size": 775,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/Classes-Metodos.coffee",
-			"settings":
-			{
-				"buffer_size": 3666,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lightbox.js",
-			"settings":
-			{
-				"buffer_size": 14869,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/styles.coffee",
-			"settings":
-			{
-				"buffer_size": 4023,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/loader.css",
-			"settings":
-			{
-				"buffer_size": 3217,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 327.0,
+		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"min",
+				"Minify Javascript to file"
+			],
 			[
 				"sass",
 				"Set Syntax: Sass"
@@ -155,7 +107,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 449.0
+		"width": 467.0
 	},
 	"console":
 	{
@@ -172,7 +124,17 @@
 	},
 	"file_history":
 	[
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/Gruntfile.js",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/demo/index.html",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/Lightbox.coffee",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/icons.coffee",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/Classes-Metodos.coffee",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/styles.coffee",
 		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/loader.css",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/js/lightbox.js",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/js/lightbox.min.js",
+		"/tmp/iconmonstr-arrow-25-icon.svg",
+		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/demo/style.css",
 		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/loader.scss",
 		"/home/kiko/Documents/Projetos/Kiko/Kiko-Lightbox/src/loader.sass",
 		"/tmp/iconmonstr-loading-2-icon.svg",
@@ -188,7 +150,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			""
@@ -199,6 +161,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".html\n.html",
 			".loader",
 			"http://(.+)(\\.jpg|\\.jpeg|\\.png|\\.bmp|\\.tif|\\.tiff|\\.svg|\\.gif)$"
 		],
@@ -223,259 +186,13 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "src/Lightbox.coffee",
-					"settings":
-					{
-						"buffer_size": 6517,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2791,
-								2791
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 578.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "demo/style.css",
-					"settings":
-					{
-						"buffer_size": 406,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								406,
-								406
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 102.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/icons.coffee",
-					"settings":
-					{
-						"buffer_size": 2068,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1973,
-								1973
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "demo/index.html",
-					"settings":
-					{
-						"buffer_size": 1247,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								762,
-								762
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "Gruntfile.js",
-					"settings":
-					{
-						"buffer_size": 775,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								337,
-								337
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 51.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		},
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 5,
-					"file": "src/Classes-Metodos.coffee",
-					"settings":
-					{
-						"buffer_size": 3666,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2281,
-								2281
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1020.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "js/lightbox.js",
-					"settings":
-					{
-						"buffer_size": 14869,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 877.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "src/styles.coffee",
-					"settings":
-					{
-						"buffer_size": 4023,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2310,
-								2310
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1258.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "src/loader.css",
-					"settings":
-					{
-						"buffer_size": 3217,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3217,
-								3217
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -507,7 +224,7 @@
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.394822006472,
 			1.0
 		],
 		"rows":

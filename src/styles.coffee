@@ -24,13 +24,28 @@ style_content = "
         position: absolute;
         top: 50%;
         left: auto; right: 15px; /* Default k-next */
-        transform: translateY(-100%); /* Default k-next */
         border:none;
         cursor:pointer;
+
+        -moz-transform: translateY(-100%); /* Default k-next */
+        -o-transform: translateY(-100%); /* Default k-next */
+        -ms-transform: translateY(-100%); /* Default k-next */
+        -webkit-transform: translateY(-100%); /* Default k-next */
+        transform: translateY(-100%); /* Default k-next */
       }
       .k-prev {
         left: 15px; right: auto;
+
+        -moz-transform: rotate(180deg) translateY(50%);
+        -o-transform: rotate(180deg) translateY(50%);
+        -ms-transform: rotate(180deg) translateY(50%);
+        -webkit-transform: rotate(180deg) translateY(50%);
         transform: rotate(180deg) translateY(50%);
+
+        -moz-transform-origin: 50% 25%; 
+        -o-transform-origin: 50% 25%;
+        -ms-transform-origin: 50% 25%;\
+        -webkit-transform-origin: 50% 25%;
         transform-origin: 50% 25%; 
       }
       .k-lightbox .k-close {
@@ -57,6 +72,8 @@ custom_style = '
     border: 1px solid rgba(255,255,255,0.5);
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    -ms-border-radius: 8px;
     border-radius: 8px;
   }
   .k-content.loading > * { border-color:transparent; }
@@ -156,30 +173,30 @@ loader_style = '
   }
 
   .k-loading div:nth-child(2) {
-    -webkit-animation-delay: 0.12s;
-    -moz-animation-delay: 0.12s;
-    -ms-animation-delay: 0.12s;
-    -o-animation-delay: 0.12s;
-    animation-delay: 0.12s; }
+    -webkit-animation-delay: 0.17s;
+    -moz-animation-delay: 0.17s;
+    -ms-animation-delay: 0.17s;
+    -o-animation-delay: 0.17s;
+    animation-delay: 0.17s; }
 
   .k-loading div:nth-child(3) {
-    -webkit-animation-delay: 0.24s;
-    -moz-animation-delay: 0.24s;
-    -ms-animation-delay: 0.24s;
-    -o-animation-delay: 0.24s;
-    animation-delay: 0.24s; }
+    -webkit-animation-delay: 0.34s;
+    -moz-animation-delay: 0.34s;
+    -ms-animation-delay: 0.34s;
+    -o-animation-delay: 0.34s;
+    animation-delay: 0.34s; }
 
   .k-loading div:nth-child(4) {
-    -webkit-animation-delay: 0.36s;
-    -moz-animation-delay: 0.36s;
-    -ms-animation-delay: 0.36s;
-    -o-animation-delay: 0.36s;
-    animation-delay: 0.36s; }
+    -webkit-animation-delay: 0.51s;
+    -moz-animation-delay: 0.51s;
+    -ms-animation-delay: 0.51s;
+    -o-animation-delay: 0.51s;
+    animation-delay: 0.51s; }
 
   .k-loading div:nth-child(5) {
-    -webkit-animation-delay: 0.48s;
-    -moz-animation-delay: 0.48s;
-    -ms-animation-delay: 0.48s;
-    -o-animation-delay: 0.48s;
-    animation-delay: 0.48s; }
+    -webkit-animation-delay: 0.68s;
+    -moz-animation-delay: 0.68s;
+    -ms-animation-delay: 0.68s;
+    -o-animation-delay: 0.68s;
+    animation-delay: 0.68s; }
 '

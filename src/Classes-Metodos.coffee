@@ -11,8 +11,14 @@ reposition = (arg) ->
 			left_percent = 0
 
 	# Alturas e larguras (o objeto imagem já está redimensionado)
-	w_h = window.innerHeight
-	w_w = window.innerWidth
+	# Browsers bons
+	if window.innerHeight || window.innerWidth
+		w_h = window.innerHeight
+		w_w = window.innerWidth
+	# IE 7-8
+	else
+		w_h = document.documentElement.clientHeight
+		w_w = document.documentElement.clientWidth
 	o_h = obj.outerHeight()
 	o_w = obj.outerWidth()
 
@@ -34,27 +40,33 @@ class ImageHandler
 		@resize_anim = 'scale'
 
 		# Se for um lightbox convencional, com href.
-		if obj?.href?
-			@img = $("<img />").attr 'src': obj.href
-			@img.addClass '.k-img'
-			# Só continua se a imagem estiver tiver sido baixada por completo.
-			@img.load =>
+		if obj?.href?				
+			@img = $("<img />")
+			# Assim que a imagem tiver sido carregada, da o load do lightbox.
+			@img.bind('load', => 
 				@load {
 					content: @img, 
 					description: @description
 				}
 				@resize()
+			).attr('src', obj.href)
+			
 
 
 	resize: ->
-		w_h = window.innerHeight
-		w_w = window.innerWidth
+		# Browsers bons
+		if window.innerHeight || window.innerWidth
+			w_h = window.innerHeight
+			w_w = window.innerWidth
+		# IE 7-8
+		else
+			w_h = document.documentElement.clientHeight
+			w_w = document.documentElement.clientWidth
 		c_h = @container.outerHeight()
 		c_w = @container.outerWidth()
 		i_h = @img.outerHeight()
 		i_w = @img.outerWidth() 
 		@img.addClass 'invisible' # Some no início para fazer a animação depois.
-		
 		
 		# Calcula o tamanho da imagem.
 		# ---

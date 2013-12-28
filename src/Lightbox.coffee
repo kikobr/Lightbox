@@ -67,13 +67,18 @@ class Lightbox
     @lightbox.fadeOut(0) # esconde
     
     # Cria a folha de estilo default
-    style = $(document.createElement 'style')
-    style.attr 'type', 'text/css'
-    style.append style_content # styles.coffee
-    style.append loader_style # styles.coffee
+    style = $ '<style />'
+    style.attr 'type':'text/css'
+    # Maldito IE8-7
+    if (style[0].styleSheet)
+      style[0].styleSheet.cssText = style_content + loader_style + custom_style
+    # Navegadores bons
+    else
+      style.append style_content+loader_style+custom_style # styles.coffee
+
+    # Carrega a folha de estilo no head.
     $('head').append style
-  
-  
+
   # User Config 
   set: (obj) ->
     # Ids personalizadas para customização de CSS

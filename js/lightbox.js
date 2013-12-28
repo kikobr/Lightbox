@@ -1,5 +1,5 @@
 (function() {
-  var DescriptionHandler, GroupHandler, ImageHandler, Lightbox, check_jQuery, close, jquery_solicitado, loader_style, loading, next_arrow, options, reposition, style_content,
+  var DescriptionHandler, GroupHandler, ImageHandler, Lightbox, check_jQuery, close, custom_style, jquery_solicitado, loader_style, loading, next_arrow, options, reposition, style_content,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   jquery_solicitado = false;
@@ -35,6 +35,7 @@
   check_jQuery();
 
   close = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">\
+		<image width="40" height="40" src="http://iconmonstr.com/g/gd/makefg.php?i=s2/default/iconmonstr-x-mark-icon.png" />\
 		<polygon id="x-mark-icon" points="438.393,374.595 319.757,255.977 438.378,137.348 374.595,73.607 255.995,192.225 137.375,73.622 73.607,137.352 192.246,255.983 73.622,374.625 137.352,438.393 256.002,319.734 374.652,438.378 "/>\
 		</svg>';
 
@@ -54,11 +55,32 @@
 
   next_arrow = '\
 	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="45px" height="45px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">\
+	<image width="40" height="40" src="http://iconmonstr.com/g/gd/makefg.php?i=s2/default/iconmonstr-x-mark-icon.png" />\
 	<polygon id="arrow-25-icon" points="142.332,104.886 197.48,50 402.5,256 197.48,462 142.332,407.113 292.727,256 "/>\
 	</svg>\
 ';
 
-  style_content = "      body { margin:0; padding: 0; }      .k-lightbox .k-front {        background-color: transparent;         padding: 0px;         position: fixed;        z-index: 991;      }      .k-lightbox .k-front img { display:block; }      .k-lightbox .k-front img.invisible { visibility: hidden; }      .k-description {        color: white;        font-weight:normal;        font-size: 14px;        line-height: 1.1em;        margin-top: 10px;      }      .k-description span {        display: block;        font-size: 0.85em;        opacity: 0.5;      }      .k-prev, .k-next {        position: absolute;        left: 15px; top: 50%;        transform: translateY(-50%);        border:none;        cursor:pointer;      }      .k-prev {        transform: rotate(180deg);        transform-origin: 50% 25%;       }      .k-next { left: auto; right: 15px; }      .k-lightbox .k-close {        display:none;        position:absolute;         top: 15px; right: 15px;        cursor:pointer;      }      .k-lightbox .k-back {        width: 100%;        height: 100%;        position: fixed;        z-index: 990;        background: grey; background: rgba(0,0,0,0.4);      }";
+  style_content = "      body { margin:0; padding: 0; } /* Certeza que nao vao ficar margens brancas */      .k-lightbox { background-color: black; }      .k-lightbox .k-front {        position: fixed;        z-index: 991;      }      .k-lightbox .k-front img { display:block; }      .k-lightbox .k-front img.invisible { visibility: hidden; }      .k-description {        margin-top: 10px;        font-size: 15px;        line-height: 1.1em;        color: white;      }      .k-description span {        display: block;        font-size: 0.85em;        *color: #AAA; /* IE7 */        opacity: 0.5;         filter: alpha(opacity=50); /* IE 8 */       }      .k-prev, .k-next {        position: absolute;        top: 50%;        left: auto; right: 15px; /* Default k-next */        transform: translateY(-100%); /* Default k-next */        border:none;        cursor:pointer;      }      .k-prev {        left: 15px; right: auto;        transform: rotate(180deg) translateY(50%);        transform-origin: 50% 25%;       }      .k-lightbox .k-close {        display:none;        position:absolute;         top: 15px; right: 15px;        cursor:pointer;      }      .k-lightbox .k-back {        width: 100%; height: 100%;        position: fixed;        z-index: 990;        background: black; /* Init IE7-8 */        background-color: rgba(0,0,0,0.7);              -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)\"; /* IE 8 */                filter: alpha(opacity=70); /* IE 7 */      }";
+
+  custom_style = '\
+  /* Imagem do Slider */\
+  .k-content > img {\
+    border: 1px solid #DDD;\
+    border: 1px solid rgba(255,255,255,0.5);\
+    -webkit-border-radius: 8px;\
+    -moz-border-radius: 8px;\
+    border-radius: 8px;\
+  }\
+  .k-content.loading > * { border-color:transparent; }\
+  .k-lightbox svg {\
+    fill: grey; fill: rgba(0,0,0,0);\
+    stroke: rgba(255,255,255,0.5);\
+    stroke-width: 12px;\
+    -ms-transition: fill 250ms ease-in-out;\
+    transition: fill 250ms ease-in-out;\
+  }\
+  .k-lightbox svg:hover { fill: white; }\
+';
 
   loader_style = '\
   .k-loading {\
@@ -185,8 +207,13 @@
         left_percent = 0;
       }
     }
-    w_h = window.innerHeight;
-    w_w = window.innerWidth;
+    if (window.innerHeight || window.innerWidth) {
+      w_h = window.innerHeight;
+      w_w = window.innerWidth;
+    } else {
+      w_h = document.documentElement.clientHeight;
+      w_w = document.documentElement.clientWidth;
+    }
     o_h = obj.outerHeight();
     o_w = obj.outerWidth();
     top = (w_h - o_h) * top_percent;
@@ -208,24 +235,26 @@
       this.time_fade = (obj != null ? obj.time_fade : void 0) != null ? obj.time_fade : void 0;
       this.resize_anim = 'scale';
       if ((obj != null ? obj.href : void 0) != null) {
-        this.img = $("<img />").attr({
-          'src': obj.href
-        });
-        this.img.addClass('.k-img');
-        this.img.load(function() {
+        this.img = $("<img />");
+        this.img.bind('load', function() {
           _this.load({
             content: _this.img,
             description: _this.description
           });
           return _this.resize();
-        });
+        }).attr('src', obj.href);
       }
     }
 
     ImageHandler.prototype.resize = function() {
       var c_h, c_w, container_infos, front, h_backup, i_h, i_w, image_height, image_width, l, l_backup, max_height, max_width, t, t_backup, w_backup, w_h, w_w;
-      w_h = window.innerHeight;
-      w_w = window.innerWidth;
+      if (window.innerHeight || window.innerWidth) {
+        w_h = window.innerHeight;
+        w_w = window.innerWidth;
+      } else {
+        w_h = document.documentElement.clientHeight;
+        w_w = document.documentElement.clientWidth;
+      }
       c_h = this.container.outerHeight();
       c_w = this.container.outerWidth();
       i_h = this.img.outerHeight();
@@ -427,10 +456,15 @@
       this.lightbox.append(this.lightbox_front, this.lightbox_back);
       $('body').prepend(this.lightbox);
       this.lightbox.fadeOut(0);
-      style = $(document.createElement('style'));
-      style.attr('type', 'text/css');
-      style.append(style_content);
-      style.append(loader_style);
+      style = $('<style />');
+      style.attr({
+        'type': 'text/css'
+      });
+      if (style[0].styleSheet) {
+        style[0].styleSheet.cssText = style_content + loader_style + custom_style;
+      } else {
+        style.append(style_content + loader_style + custom_style);
+      }
       return $('head').append(style);
     };
 

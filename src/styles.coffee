@@ -1,37 +1,38 @@
 style_content = "
-      body { margin:0; padding: 0; }
+      body { margin:0; padding: 0; } /* Certeza que nao vao ficar margens brancas */
+      .k-lightbox { background-color: black; }
       .k-lightbox .k-front {
-        background-color: transparent; 
-        padding: 0px; 
         position: fixed;
         z-index: 991;
       }
       .k-lightbox .k-front img { display:block; }
       .k-lightbox .k-front img.invisible { visibility: hidden; }
       .k-description {
-        color: white;
-        font-weight:normal;
-        font-size: 14px;
-        line-height: 1.1em;
         margin-top: 10px;
+        font-size: 15px;
+        line-height: 1.1em;
+        color: white;
       }
       .k-description span {
         display: block;
         font-size: 0.85em;
-        opacity: 0.5;
+        *color: #AAA; /* IE7 */
+        opacity: 0.5; 
+        filter: alpha(opacity=50); /* IE 8 */ 
       }
       .k-prev, .k-next {
         position: absolute;
-        left: 15px; top: 50%;
-        transform: translateY(-50%);
+        top: 50%;
+        left: auto; right: 15px; /* Default k-next */
+        transform: translateY(-100%); /* Default k-next */
         border:none;
         cursor:pointer;
       }
       .k-prev {
-        transform: rotate(180deg);
+        left: 15px; right: auto;
+        transform: rotate(180deg) translateY(50%);
         transform-origin: 50% 25%; 
       }
-      .k-next { left: auto; right: 15px; }
       .k-lightbox .k-close {
         display:none;
         position:absolute; 
@@ -39,13 +40,35 @@ style_content = "
         cursor:pointer;
       }
       .k-lightbox .k-back {
-        width: 100%;
-        height: 100%;
+        width: 100%; height: 100%;
         position: fixed;
         z-index: 990;
-        background: grey; background: rgba(0,0,0,0.4);
+        background: black; /* Init IE7-8 */
+        background-color: rgba(0,0,0,0.7);      
+        -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)\"; /* IE 8 */        
+        filter: alpha(opacity=70); /* IE 7 */
       }
 "
+
+custom_style = '
+  /* Imagem do Slider */
+  .k-content > img {
+    border: 1px solid #DDD;
+    border: 1px solid rgba(255,255,255,0.5);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+  }
+  .k-content.loading > * { border-color:transparent; }
+  .k-lightbox svg {
+    fill: grey; fill: rgba(0,0,0,0);
+    stroke: rgba(255,255,255,0.5);
+    stroke-width: 12px;
+    -ms-transition: fill 250ms ease-in-out;
+    transition: fill 250ms ease-in-out;
+  }
+  .k-lightbox svg:hover { fill: white; }
+'
 
 loader_style = '
   .k-loading {

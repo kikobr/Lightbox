@@ -43,8 +43,7 @@ O Auto Lightbox permite que você configure algumas de suas propriedades. Após 
 		max_height: 0.8,
 		max_width: 0.8,
 		click_holder: '.lightbox',
-		id_back : "fundo",
-		id_front: "frente"
+		custom_style: false
 	});
 </script>
 ```
@@ -62,6 +61,31 @@ Sim e não! O Auto Lightbox depende do jQuery para funcionar, mas isso não sign
 **click_holder**: por padrão, o lightbox é acionado em elementos que contenham o atributo data-lightbox. Caso queira mudar essa regra, basta colocar um seletor para ativar o lightbox. No caso de '.lightbox', ele só será ativado se o usuário clicar em um elemento que possua a classe 'lightbox'.
 
 **id_back e id_front**: servem para facilitar a customização. O valor informado aqui será repassado como id para a parte de conteúdo e fundo do lightbox. Ao customizar o lightbox num CSS externo, referencie esse id para ter certeza que suas declarações funcionarão: #frente img { border: 1px solid black; }
+
+**custom_style**: determina se o estilo padrão para o lightbox será carregado ou não. Por padrão, vem como false. Defina-o como true para personalizar o CSS como quiser (Veja mais abaixo).
+
+O visual está uma porcaria, quero mudar!
+========
+Primeiro, defina como true no lightbox_options o parâmetro custom_style. Isso vai deixar o visual do lightbox todo cru, pra que você possa mexer no que quiser. Para ajudar a criar seu próprio CSS, veja os elementos que constituem o auto lightbox:
+```html
+<div class="autolightbox">
+	<div class="autolightbox-front">
+		<div class="autolightbox-content">
+			<img src="" alt=""> <!-- Imagem  -->
+			<svg class="autolightbox-prev"></svg> <!-- Botão de anterior -->
+			<svg class="autolightbox-next"></svg> <!-- Botão de próximo -->
+		</div><!-- Contâiner da imagem e botões de navegação -->
+		
+		<div class="autolightbox-description">
+			<span></span> <!-- Numeração (Página x de z) -->
+		</div> <!-- Descrição da imagem -->
+		<svg class="autolightbox-close"></svg> <!-- Botão de fechar -->
+	</div><!-- Toda a informação do lightbox -->
+
+	<div class="autolightbox-back"></div> <!-- Background/Fundo -->
+</div>
+```
+Favor notar que os botões de navegação e fechar são SVG, portanto, aplique estilos para SVG neles.
 
 Quero modificar o código!
 ========

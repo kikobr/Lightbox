@@ -8,6 +8,7 @@ class Lightbox
     @time_fade = if @user_options?.time_fade then @user_options.time_fade else 250
     @max_width = if @user_options?.max_width then @user_options.max_width else 0.8
     @max_height = if @user_options?.max_height then @user_options.height else 0.8
+    @custom_style = if @user_options?.custom_style then @user_options.custom_style else false
     @opened = false
     #---------------------------------------------------
     # Cria o html e o style do lightbox
@@ -67,20 +68,23 @@ class Lightbox
     @lightbox.fadeOut(0) # esconde
     
     # Cria a folha de estilo default
-    style = $ '<style />'
-    style.attr 'type':'text/css'
+    @style = $ '<style />'
+    @style.attr 'type':'text/css'
     # Maldito IE8-7
-    if (style[0].styleSheet)
-      style[0].styleSheet.cssText = style_content + loader_style + custom_style
+    if (@style[0].styleSheet)
+      @style[0].styleSheet.cssText = style_content + loader_style + custom_style
     # Navegadores bons
     else
-      style.append style_content+loader_style+custom_style # styles.coffee
+      @style.append style_content+loader_style # styles.coffee
+      # Só carrega o estilo padrão se o usuário não definir um custom_style.
+      if @custom_style is off then @style.append custom_style 
 
     # Carrega a folha de estilo no head.
-    $('head').append style
+    $('head').append @style
 
   # User Config 
   set: (obj) ->
+    # Prepara para retirar!
     # Ids personalizadas para customização de CSS
     id_front = if obj?.id_front? then obj.id_front else null
     id_back = if obj?.id_back? then obj.id_back else null  
@@ -91,6 +95,14 @@ class Lightbox
     if obj?.time_fade? then @time_fade = obj.time_fade
     if obj?.max_width? then @max_width = obj.max_width
     if obj?.max_height? then @max_height = obj.max_height
+
+    # Estilo Customizado dentro da $(function(){})
+    # Certifica de preencher novamente a tag só com o estilo necessário.
+    if obj?.custom_style?
+      @custom_style = true;
+      @style.html ''
+      @style.append style_content+loader_style
+
     # Click Holder
     default_holder = @click_holder # Guarda antigo click_holder para remover ouvinte
     if obj?.click_holder?

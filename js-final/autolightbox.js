@@ -404,12 +404,13 @@
   Lightbox = (function() {
     function Lightbox() {
       this.load = __bind(this.load, this);
-      var _ref, _ref1, _ref2, _ref3;
+      var _ref, _ref1, _ref2, _ref3, _ref4;
       this.user_options = options != null ? options : null;
       this.click_holder = ((_ref = this.user_options) != null ? _ref.click : void 0) ? this.user_options.click : '[data-lightbox]';
       this.time_fade = ((_ref1 = this.user_options) != null ? _ref1.time_fade : void 0) ? this.user_options.time_fade : 250;
       this.max_width = ((_ref2 = this.user_options) != null ? _ref2.max_width : void 0) ? this.user_options.max_width : 0.8;
       this.max_height = ((_ref3 = this.user_options) != null ? _ref3.max_height : void 0) ? this.user_options.height : 0.8;
+      this.custom_style = ((_ref4 = this.user_options) != null ? _ref4.custom_style : void 0) ? this.user_options.custom_style : false;
       this.opened = false;
       this.create_html_css();
       if (this.user_options != null) {
@@ -422,7 +423,6 @@
     }
 
     Lightbox.prototype.create_html_css = function() {
-      var style;
       this.lightbox = $(document.createElement('div'));
       this.lightbox_front = $(document.createElement('div'));
       this.lightbox_content = $('<div></div>');
@@ -458,16 +458,19 @@
       this.lightbox.append(this.lightbox_front, this.lightbox_back);
       $('body').prepend(this.lightbox);
       this.lightbox.fadeOut(0);
-      style = $('<style />');
-      style.attr({
+      this.style = $('<style />');
+      this.style.attr({
         'type': 'text/css'
       });
-      if (style[0].styleSheet) {
-        style[0].styleSheet.cssText = style_content + loader_style + custom_style;
+      if (this.style[0].styleSheet) {
+        this.style[0].styleSheet.cssText = style_content + loader_style + custom_style;
       } else {
-        style.append(style_content + loader_style + custom_style);
+        this.style.append(style_content + loader_style);
+        if (this.custom_style === false) {
+          this.style.append(custom_style);
+        }
       }
-      return $('head').append(style);
+      return $('head').append(this.style);
     };
 
     Lightbox.prototype.set = function(obj) {
@@ -488,6 +491,11 @@
       }
       if ((obj != null ? obj.max_height : void 0) != null) {
         this.max_height = obj.max_height;
+      }
+      if ((obj != null ? obj.custom_style : void 0) != null) {
+        this.custom_style = true;
+        this.style.html('');
+        this.style.append(style_content + loader_style);
       }
       default_holder = this.click_holder;
       if ((obj != null ? obj.click_holder : void 0) != null) {

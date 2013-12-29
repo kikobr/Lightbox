@@ -1,26 +1,26 @@
 style_content = "
       body { margin:0; padding: 0; } /* Certeza que nao vao ficar margens brancas */
-      .k-lightbox { background-color: black; }
-      .k-lightbox .k-front {
+      .autolightbox { background-color: black; }
+      .autolightbox-front {
         position: fixed;
         z-index: 991;
       }
-      .k-lightbox .k-front img { display:block; }
-      .k-lightbox .k-front img.invisible { visibility: hidden; }
-      .k-description {
+      .autolightbox-front img { display:block; }
+      .autolightbox-front img.invisible { visibility: hidden; }
+      .autolightbox-description {
         margin-top: 10px;
         font-size: 15px;
         line-height: 1.1em;
         color: white;
       }
-      .k-description span {
+      .autolightbox-description span {
         display: block;
         font-size: 0.85em;
         *color: #AAA; /* IE7 */
         opacity: 0.5; 
         filter: alpha(opacity=50); /* IE 8 */ 
       }
-      .k-prev, .k-next {
+      .autolightbox-prev, .autolightbox-next {
         position: absolute;
         top: 50%;
         left: auto; right: 15px; /* Default k-next */
@@ -33,7 +33,7 @@ style_content = "
         -webkit-transform: translateY(-100%); /* Default k-next */
         transform: translateY(-100%); /* Default k-next */
       }
-      .k-prev {
+      .autolightbox-prev {
         left: 15px; right: auto;
 
         -moz-transform: rotate(180deg) translateY(50%);
@@ -48,13 +48,13 @@ style_content = "
         -webkit-transform-origin: 50% 25%;
         transform-origin: 50% 25%; 
       }
-      .k-lightbox .k-close {
+      .autolightbox-close {
         display:none;
         position:absolute; 
         top: 15px; right: 15px;
         cursor:pointer;
       }
-      .k-lightbox .k-back {
+      .autolightbox-back {
         width: 100%; height: 100%;
         position: fixed;
         z-index: 990;
@@ -67,7 +67,7 @@ style_content = "
 
 custom_style = '
   /* Imagem do Slider */
-  .k-content > img {
+  .autolightbox-content > img {
     border: 1px solid #DDD;
     border: 1px solid rgba(255,255,255,0.5);
     -webkit-border-radius: 8px;
@@ -76,19 +76,19 @@ custom_style = '
     -ms-border-radius: 8px;
     border-radius: 8px;
   }
-  .k-content.loading > * { border-color:transparent; }
-  .k-lightbox svg {
+  .autolightbox-content.loading > * { border-color:transparent; }
+  .autolightbox svg {
     fill: grey; fill: rgba(0,0,0,0);
     stroke: rgba(255,255,255,0.5);
     stroke-width: 12px;
     -ms-transition: fill 250ms ease-in-out;
     transition: fill 250ms ease-in-out;
   }
-  .k-lightbox svg:hover { fill: white; }
+  .autolightbox svg:hover { fill: white; }
 '
 
 loader_style = '
-  .k-loading {
+  .autolightbox-loading {
   width: 50px;
   height: 50px;
   /*border:  1px solid black;*/
@@ -143,7 +143,7 @@ loader_style = '
       transform: rotateZ(410deg); }
   }
 
-  .k-loading div {
+  .autolightbox-loading div {
     position: absolute;
     left: 7%;
     top: 9%;
@@ -172,28 +172,28 @@ loader_style = '
     transform-origin: 275% 275%;
   }
 
-  .k-loading div:nth-child(2) {
+  .autolightbox-loading div:nth-child(2) {
     -webkit-animation-delay: 0.17s;
     -moz-animation-delay: 0.17s;
     -ms-animation-delay: 0.17s;
     -o-animation-delay: 0.17s;
     animation-delay: 0.17s; }
 
-  .k-loading div:nth-child(3) {
+  .autolightbox-loading div:nth-child(3) {
     -webkit-animation-delay: 0.34s;
     -moz-animation-delay: 0.34s;
     -ms-animation-delay: 0.34s;
     -o-animation-delay: 0.34s;
     animation-delay: 0.34s; }
 
-  .k-loading div:nth-child(4) {
+  .autolightbox-loading div:nth-child(4) {
     -webkit-animation-delay: 0.51s;
     -moz-animation-delay: 0.51s;
     -ms-animation-delay: 0.51s;
     -o-animation-delay: 0.51s;
     animation-delay: 0.51s; }
 
-  .k-loading div:nth-child(5) {
+  .autolightbox-loading div:nth-child(5) {
     -webkit-animation-delay: 0.68s;
     -moz-animation-delay: 0.68s;
     -ms-animation-delay: 0.68s;

@@ -33,7 +33,7 @@ class ImageHandler
 	constructor: (obj) ->
 		@description = if obj?.description? then obj.description else null
 		@load = if obj?.load? then obj.load else null
-		@container = if obj?.container? then obj.container else '.k-lightbox .k-front'
+		@container = if obj?.container? then obj.container else '.autolightbox-front'
 		@max_height = if obj?.max_height? then obj.max_height
 		@max_width = if obj?.max_width? then obj.max_width
 		@time_fade = if obj?.time_fade? then obj.time_fade
@@ -49,8 +49,7 @@ class ImageHandler
 					description: @description
 				}
 				@resize()
-			).attr('src', obj.href)
-			
+			).attr('src', obj.href)			
 
 
 	resize: ->
@@ -87,7 +86,7 @@ class ImageHandler
 			@img.css 'width':image_width+'px', 'height': 'auto'
 
 		# Alinha ao centro da tela
-		front = @img.closest '.k-front'
+		front = @img.closest '.autolightbox-front'
 		reposition position: 'center', obj:front
 
 		@img.removeClass 'invisible'
@@ -99,7 +98,7 @@ class ImageHandler
 				w_backup = @img.outerWidth()
 				h_backup = @img.outerHeight()
 				# A posição também é importante para o efeito se dar a partir do centro
-				front = @img.closest '.k-front'
+				front = @img.closest '.autolightbox-front'
 				t_backup = parseInt((front.css 'top').slice 0,-2) # remove 'px' e vira int
 				l_backup = parseInt((front.css 'left').slice 0,-2) # remove 'px' e vira int
 				t = t_backup + (@img.outerHeight()/2) # centro da imagem

@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 	      join: true
 	    },
 	    files: {	    	
-	    	'js/lightbox.js': [
+	    	'js-final/autolightbox.js': [
 	    		'src/check.coffee',
 	    		'src/icons.coffee',
 	    		'src/styles.coffee',
@@ -21,10 +21,20 @@ module.exports = function(grunt) {
 	    }
 	  }	  
 	},
+	uglify: {
+		options: {
+	      compress: true
+	    },
+		my_target: {
+		  files: {
+		    'js-final/autolightbox.min.js': ['js-final/autolightbox.js']
+		  }
+		}
+	},
     watch: {
 	    scripts: {
 		    files: ['src/*.coffee'],
-		    tasks: ['coffee'],
+		    tasks: ['coffee', 'uglify'],
 		    options: {
 		    spawn: false,
 	  	},
@@ -35,7 +45,8 @@ module.exports = function(grunt) {
   // Load plugins here
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Define your tasks here
-  grunt.registerTask('default', ['coffee', 'watch']);
+  grunt.registerTask('default', ['coffee', 'uglify', 'watch']);
 };

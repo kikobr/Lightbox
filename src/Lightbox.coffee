@@ -7,7 +7,7 @@ class Lightbox
     @click_holder = if @user_options?.click then @user_options.click else '[data-lightbox]'
     @time_fade = if @user_options?.time_fade then @user_options.time_fade else 250
     @max_width = if @user_options?.max_width then @user_options.max_width else 0.8
-    @max_height = if @user_options?.max_height then @user_options.height else 0.85
+    @max_height = if @user_options?.max_height then @user_options.height else 0.8
     @opened = false
     #---------------------------------------------------
     # Cria o html e o style do lightbox
@@ -40,15 +40,15 @@ class Lightbox
     @lightbox_loading = $ loading
     @lightbox_back = $(document.createElement 'div')
 
-    @lightbox.addClass 'k-lightbox'
-    @lightbox_front.addClass 'k-front'
-    @lightbox_close.attr 'class':'k-close', 'title':'Fechar [Pressione Esc]' # Só aplica com attr.
-    @lightbox_prev.attr 'class':'k-prev', 'title':'Imagem anterior [Pressione seta esquerda]'
-    @lightbox_next.attr 'class':'k-next', 'title':'Próxima Imagem [Pressione seta direita]'
-    @lightbox_loading.attr 'class':'k-loading', 'title':'Carregando'
-    @lightbox_content.addClass 'k-content'
-    @lightbox_description.addClass 'k-description'
-    @lightbox_back.addClass 'k-back'
+    @lightbox.addClass 'autolightbox'
+    @lightbox_front.addClass 'autolightbox-front'
+    @lightbox_close.attr 'class':'autolightbox-close', 'title':'Fechar [Pressione Esc]' # Só aplica com attr.
+    @lightbox_prev.attr 'class':'autolightbox-prev', 'title':'Imagem anterior [Pressione seta esquerda]'
+    @lightbox_next.attr 'class':'autolightbox-next', 'title':'Próxima Imagem [Pressione seta direita]'
+    @lightbox_loading.attr 'class':'autolightbox-loading', 'title':'Carregando'
+    @lightbox_content.addClass 'autolightbox-content'
+    @lightbox_description.addClass 'autolightbox-description'
+    @lightbox_back.addClass 'autolightbox-back'
     
     @lightbox_content.append(
       @lightbox_prev,
@@ -210,7 +210,7 @@ class Lightbox
   # Vai ser chamado de alguma outra classe, por isso precisa do contexto definido =>.
   load: (obj) =>
     content = if obj?.content? then obj.content #imagem
-    if @lightbox_content.find '.k-loading'
+    if @lightbox_content.find '.autolightbox-loading'
       @lightbox_loading.remove()
       @lightbox_content.removeClass 'loading'
     @lightbox_content.append content

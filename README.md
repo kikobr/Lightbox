@@ -6,9 +6,9 @@ Um lightbox mais fácil de fazer funcionar? Só pagando alguém pra fazer por vo
 
 ### Botando pra funcionar ###
 
-1o. Passo: Importe o script dentro do head da sua página:
+1o. Passo: Importe o script da pasta 'js-final' dentro do head da sua página:
 ```html
-<script src="autolightbox.min.js" type="text/javascript"></script>
+<script src="link/para/autolightbox.min.js" type="text/javascript"></script>
 </head><!-- Final do head -->
 ```
 

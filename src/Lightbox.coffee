@@ -4,7 +4,7 @@ class Lightbox
   constructor: ->
     # Opções definidas pelo usuário. A variável global lightbox_options é criada no início do script. 
     @user_options = if options? then options else null
-    @click_holder = if @user_options?.click then @user_options.click else '[data-lightbox]'
+    @click_holder = if @user_options?.click_holder then @user_options.click_holder else '[data-lightbox]'
     @time_fade = if @user_options?.time_fade then @user_options.time_fade else 250
     @max_width = if @user_options?.max_width then @user_options.max_width else 0.8
     @max_height = if @user_options?.max_height then @user_options.height else 0.8
@@ -116,8 +116,10 @@ class Lightbox
     
   # Clique e inicialização
   set_click_holders: (override) ->
-    if override? then $(override).unbind('click') # Tira o ouvinte do holder padrão
-    $(@click_holder).click (e) => 
+    if override? then $(override).unbind 'click on' # Tira o ouvinte do holder padrão
+
+    # O .on permite que o handler seja aplicado a futuros elementos
+    $(document).on 'click', @click_holder, (e) =>
       e.preventDefault()
       @open(`$(this)`)
 

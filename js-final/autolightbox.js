@@ -406,7 +406,7 @@
       this.load = __bind(this.load, this);
       var _ref, _ref1, _ref2, _ref3, _ref4;
       this.user_options = options != null ? options : null;
-      this.click_holder = ((_ref = this.user_options) != null ? _ref.click : void 0) ? this.user_options.click : '[data-lightbox]';
+      this.click_holder = ((_ref = this.user_options) != null ? _ref.click_holder : void 0) ? this.user_options.click_holder : '[data-lightbox]';
       this.time_fade = ((_ref1 = this.user_options) != null ? _ref1.time_fade : void 0) ? this.user_options.time_fade : 250;
       this.max_width = ((_ref2 = this.user_options) != null ? _ref2.max_width : void 0) ? this.user_options.max_width : 0.8;
       this.max_height = ((_ref3 = this.user_options) != null ? _ref3.max_height : void 0) ? this.user_options.height : 0.8;
@@ -515,9 +515,9 @@
     Lightbox.prototype.set_click_holders = function(override) {
       var _this = this;
       if (override != null) {
-        $(override).unbind('click');
+        $(override).unbind('click on');
       }
-      $(this.click_holder).click(function(e) {
+      $(document).on('click', this.click_holder, function(e) {
         e.preventDefault();
         return _this.open($(this));
       });

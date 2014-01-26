@@ -591,7 +591,7 @@
       }
       href = (clicked != null ? clicked.attr('href') : void 0) ? clicked.attr('href') : null;
       if (href) {
-        is_img_link = /http:\/\/(.+)(\.jpg|\.jpeg|\.png|\.bmp|\.tif|\.tiff|\.svg|\.gif)$/;
+        is_img_link = /(.+)(\.jpg|\.jpeg|\.png|\.bmp|\.tif|\.tiff|\.svg|\.gif)$/;
         if (is_img_link.test(href)) {
           description = '';
           if (clicked != null ? clicked.attr('title') : void 0) {

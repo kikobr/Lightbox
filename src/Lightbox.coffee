@@ -196,7 +196,7 @@ class Lightbox
     if href
       # Se for um link de imagem
       # ---
-      is_img_link = /http:\/\/(.+)(\.jpg|\.jpeg|\.png|\.bmp|\.tif|\.tiff|\.svg|\.gif)$/ # começa com 'http://', seguido de qualquer tipo de caractere, quantas vezes forem, desde que termine com .jpg. 
+      is_img_link = /(.+)(\.jpg|\.jpeg|\.png|\.bmp|\.tif|\.tiff|\.svg|\.gif)$/ # Quaisquer caracteres quantas vezes forem, desde que termine com .jpg. Permite links permanentes ou dinâmicos.
       if is_img_link.test(href)
         # Se tiver descrições
         description = ''
